@@ -49,14 +49,16 @@ body{font-family:var(--fn);background:var(--bg);color:var(--ink);line-height:1.5
 .key-btn:hover{border-color:var(--g);color:var(--gl)}
 
 /* ── HERO ── */
-.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:52px 20px 40px}
-.eyebrow{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gl);margin-bottom:18px}
-h1{font-size:clamp(28px,5vw,48px);font-weight:800;letter-spacing:-.015em;line-height:1.05;margin-bottom:12px}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:60px 20px 52px;max-width:740px;margin:0 auto}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gl);margin-bottom:20px}
+h1{font-size:clamp(28px,5vw,50px);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-bottom:16px}
 h1 em{font-style:normal;color:var(--gl)}
-.sub{font-size:15px;color:var(--muted);max-width:50ch;line-height:1.65;margin-bottom:32px}
-.caps{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
-.cap-pill{font-size:11px;font-weight:600;padding:5px 13px;border-radius:999px;background:var(--sur);border:1px solid var(--bd);color:var(--muted);display:flex;align-items:center;gap:5px}
-.cap-dot{width:5px;height:5px;border-radius:50%;background:var(--gl);flex-shrink:0}
+.sub{font-size:15px;color:var(--muted);max-width:54ch;line-height:1.75;margin-bottom:36px}
+.pillars{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:36px}
+.pillar{font-size:11px;font-weight:600;padding:5px 13px;border-radius:999px;background:var(--sur);border:1px solid var(--bd);color:var(--muted)}
+.start-btn{padding:16px 36px;background:var(--g);color:#fff;border:none;border-radius:999px;font-family:var(--fn);font-size:13px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s,transform .1s}
+.start-btn:hover{background:var(--gl)}
+.start-btn:active{transform:scale(.97)}
 
 /* ── WIZARD ── */
 .wizard{width:100%;max-width:740px;margin:0 auto;padding:40px 20px 64px}
@@ -261,22 +263,26 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
 
 <!-- ── HERO ── -->
 <div class="hero" id="hero">
-  <div class="eyebrow">Nieuwbouw · AI-merkstrategie · Brand Foundation Document</div>
-  <h1>Van projectinfo<br><em>naar compleet merkfundament</em></h1>
+  <div class="eyebrow">Brand Foundation Agent · Nieuwbouw</div>
+  <h1>Van projectinfo<br>naar <em>merkfundament</em></h1>
   <p class="sub">Vul de intake in, de agent doet marktonderzoek en genereert één volledig Brand Foundation Document — direct bruikbaar voor naming, copy, visual identity, website en sales.</p>
-  <div class="caps">
-    <div class="cap-pill"><div class="cap-dot"></div>Positionering</div>
-    <div class="cap-pill"><div class="cap-dot"></div>Merkidentiteit</div>
-    <div class="cap-pill"><div class="cap-dot"></div>USP's</div>
-    <div class="cap-pill"><div class="cap-dot"></div>Tone of Voice</div>
-    <div class="cap-pill"><div class="cap-dot"></div>Messaging House</div>
-    <div class="cap-pill"><div class="cap-dot"></div>Voorbeeldcopy</div>
-    <div class="cap-pill"><div class="cap-dot"></div>Sales &amp; Marketing</div>
+  <div class="pillars">
+    <span class="pillar">Positionering</span>
+    <span class="pillar">Merkidentiteit</span>
+    <span class="pillar">USP's</span>
+    <span class="pillar">Tone of Voice</span>
+    <span class="pillar">Messaging House</span>
+    <span class="pillar">Voorbeeldcopy</span>
+    <span class="pillar">Sales &amp; Marketing</span>
   </div>
+  <button class="start-btn" onclick="startIntake()">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Start intake
+  </button>
 </div>
 
 <!-- ── WIZARD ── -->
-<div class="wizard" id="wizardSection">
+<div class="wizard" id="wizardSection" style="display:none">
 
   <div class="progress" id="progressBar">
     <div class="prog-step">
@@ -642,6 +648,13 @@ window.addEventListener('DOMContentLoaded', () => {
   if(localStorage.getItem('groq_key')) document.getElementById('setupModal').style.display = 'none';
   document.getElementById('apiKeyInput').addEventListener('keydown', e => { if(e.key==='Enter') saveKey(); });
 });
+
+/* ── HERO → INTAKE ── */
+function startIntake(){
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('wizardSection').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
 
 /* ── CHIPS ── */
 function chip(el, group){
@@ -1323,6 +1336,9 @@ function resetAll(){
   document.querySelectorAll('.fld-inp,.fld-ta').forEach(el => el.value = '');
   document.querySelectorAll('.fld-sel').forEach(el => el.selectedIndex = 0);
   goStep(1);
+  document.getElementById('wizardSection').style.display = 'none';
+  document.getElementById('hero').style.display = 'flex';
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 </script>
 </body>
