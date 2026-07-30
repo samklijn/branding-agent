@@ -53,62 +53,60 @@ body{font-family:var(--fn);background:var(--bg);color:var(--ink);line-height:1.5
 .eyebrow{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gl);margin-bottom:18px}
 h1{font-size:clamp(28px,5vw,48px);font-weight:800;letter-spacing:-.015em;line-height:1.05;margin-bottom:12px}
 h1 em{font-style:normal;color:var(--gl)}
-.sub{font-size:15px;color:var(--muted);max-width:46ch;line-height:1.65;margin-bottom:36px}
-
-/* Capability pills */
-.caps{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.sub{font-size:15px;color:var(--muted);max-width:50ch;line-height:1.65;margin-bottom:32px}
+.caps{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
 .cap-pill{font-size:11px;font-weight:600;padding:5px 13px;border-radius:999px;background:var(--sur);border:1px solid var(--bd);color:var(--muted);display:flex;align-items:center;gap:5px}
-.cap-dot{width:6px;height:6px;border-radius:50%;background:var(--gl);flex-shrink:0}
+.cap-dot{width:5px;height:5px;border-radius:50%;background:var(--gl);flex-shrink:0}
 
-/* ── WIZARD WRAP ── */
-.wizard{width:100%;max-width:700px;margin:0 auto;padding:40px 20px 64px}
+/* ── WIZARD ── */
+.wizard{width:100%;max-width:740px;margin:0 auto;padding:40px 20px 64px}
 
-/* Progress bar */
 .progress{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:36px}
 .prog-step{display:flex;align-items:center;gap:8px}
 .prog-dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--koud);background:var(--bg);transition:.2s;flex-shrink:0}
 .prog-dot.active{border-color:var(--g);color:var(--g);background:rgba(124,167,63,.08)}
 .prog-dot.done{border-color:var(--g);background:var(--g);color:#fff}
 .prog-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--koud);transition:.2s}
-.prog-dot.active + .prog-label{color:var(--muted)}
-.prog-dot.done + .prog-label{color:var(--muted)}
-.prog-line{width:48px;height:1px;background:var(--bd);flex-shrink:0;margin:0 4px;transition:background .3s}
+.prog-dot.active + .prog-label,.prog-dot.done + .prog-label{color:var(--muted)}
+.prog-line{width:40px;height:1px;background:var(--bd);flex-shrink:0;margin:0 4px;transition:background .3s}
 .prog-line.done{background:var(--g)}
 
-/* Step cards */
 .step-card{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:28px;display:none}
 .step-card.active{display:block}
 .step-title{font-size:17px;font-weight:800;margin-bottom:4px}
 .step-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.55}
 
 /* Fields */
-.field{margin-bottom:18px}
+.field{margin-bottom:16px}
 .field-row{display:grid;gap:14px}
 .field-row.c2{grid-template-columns:1fr 1fr}
-.fld-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:block}
-.fld-inp{width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);color:var(--ink);font-family:var(--fn);font-size:14px;outline:none;transition:border-color .15s}
+.field-row.c3{grid-template-columns:1fr 1fr 1fr}
+.fld-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:flex;align-items:center;gap:6px}
+.opt-tag{font-size:9px;font-weight:600;color:var(--koud);background:var(--bg);border:1px solid var(--bd);padding:1px 6px;border-radius:3px;letter-spacing:.04em}
+.fld-inp{width:100%;padding:10px 13px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);color:var(--ink);font-family:var(--fn);font-size:13.5px;outline:none;transition:border-color .15s}
 .fld-inp:focus{border-color:var(--g)}
 .fld-inp::placeholder{color:var(--koud)}
-.fld-sel{width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);color:var(--ink);font-family:var(--fn);font-size:14px;outline:none;transition:border-color .15s;appearance:none;cursor:pointer}
+.fld-sel{width:100%;padding:10px 13px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);color:var(--ink);font-family:var(--fn);font-size:13.5px;outline:none;transition:border-color .15s;appearance:none;cursor:pointer}
 .fld-sel:focus{border-color:var(--g)}
 .fld-sel option{background:var(--sur)}
-.fld-ta{width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);color:var(--ink);font-family:var(--fn);font-size:14px;outline:none;transition:border-color .15s;resize:vertical;min-height:90px;line-height:1.6}
+.fld-ta{width:100%;padding:10px 13px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);color:var(--ink);font-family:var(--fn);font-size:13.5px;outline:none;transition:border-color .15s;resize:vertical;min-height:80px;line-height:1.6}
 .fld-ta:focus{border-color:var(--g)}
 .fld-ta::placeholder{color:var(--koud)}
 
-/* Chip selectors */
-.chip-group{display:flex;flex-wrap:wrap;gap:8px}
-.chip{padding:7px 15px;border-radius:999px;background:var(--bg);border:1px solid var(--bd);color:var(--muted);font-family:var(--fn);font-size:12px;font-weight:600;cursor:pointer;transition:.12s;user-select:none}
+.section-divider{font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--koud);border-bottom:1px solid var(--bd);padding-bottom:8px;margin:22px 0 16px}
+
+.chip-group{display:flex;flex-wrap:wrap;gap:7px}
+.chip{padding:6px 13px;border-radius:999px;background:var(--bg);border:1px solid var(--bd);color:var(--muted);font-family:var(--fn);font-size:11.5px;font-weight:600;cursor:pointer;transition:.12s;user-select:none}
 .chip:hover{border-color:var(--g);color:var(--gl)}
 .chip.sel{border-color:var(--g);background:rgba(124,167,63,.1);color:var(--gl)}
 
-/* Step nav */
-.step-nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px}
+.step-nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--bd)}
 .btn-back{background:none;border:1px solid var(--bd);color:var(--muted);font-family:var(--fn);font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:11px 22px;border-radius:999px;cursor:pointer;transition:.12s}
 .btn-back:hover{border-color:var(--g);color:var(--gl)}
-.btn-next{background:var(--g);color:#fff;border:none;font-family:var(--fn);font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:11px 28px;border-radius:999px;cursor:pointer;transition:.12s;display:flex;align-items:center;gap:8px}
+.btn-next{background:var(--g);color:#fff;border:none;font-family:var(--fn);font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:11px 28px;border-radius:999px;cursor:pointer;transition:.12s}
 .btn-next:hover{background:var(--gl)}
 .btn-next:active{transform:scale(.97)}
+.btn-next:disabled{opacity:.4;cursor:not-allowed;transform:none}
 
 /* ── LOADING ── */
 .loading-card{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:48px 32px;text-align:center;display:none}
@@ -117,49 +115,49 @@ h1 em{font-style:normal;color:var(--gl)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .ld-title{font-size:17px;font-weight:800;margin-bottom:6px}
 .ld-sub{font-size:13px;color:var(--muted);margin-bottom:28px}
-.ld-steps{display:flex;flex-direction:column;gap:8px;max-width:320px;margin:0 auto}
+.ld-steps{display:flex;flex-direction:column;gap:8px;max-width:340px;margin:0 auto}
 .ld-step{font-size:12.5px;color:var(--koud);display:flex;align-items:center;gap:10px;padding:8px 14px;border-radius:var(--rsm);transition:.3s;text-align:left}
 .ld-step.active{background:rgba(124,167,63,.07);color:var(--gl);border:1px solid rgba(124,167,63,.15)}
 .ld-step.done{color:var(--muted)}
-.ld-ico{font-size:16px;flex-shrink:0}
+.ld-ico{font-size:15px;flex-shrink:0}
+#ldRetry{margin-top:20px}
 
 /* ── RESULTS ── */
 .results-section{display:none}
 .results-section.show{display:block}
-.res-head{text-align:center;padding:36px 0 30px}
-.res-badge{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.res-title{font-size:clamp(24px,4vw,38px);font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
-.res-sub{font-size:14px;color:var(--muted)}
+.res-head{text-align:center;padding:36px 0 28px}
+.res-badge{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.res-title{font-size:clamp(22px,4vw,34px);font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.res-sub{font-size:13.5px;color:var(--muted)}
 
-/* Output accordion cards */
+/* Accordion cards */
 .out-card{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;margin-bottom:8px;transition:border-color .12s}
 .out-card:hover{border-color:var(--line)}
-.out-head{display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer;user-select:none}
-.out-badge{font-size:9px;font-weight:800;letter-spacing:.06em;color:var(--gl);background:rgba(124,167,63,.1);padding:3px 9px;border-radius:999px;flex-shrink:0}
-.out-title{font-size:14px;font-weight:800;flex:1}
+.out-head{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;user-select:none}
+.out-badge{font-size:9px;font-weight:800;letter-spacing:.06em;color:var(--gl);background:rgba(124,167,63,.1);padding:3px 9px;border-radius:999px;flex-shrink:0;white-space:nowrap}
+.out-title{font-size:13.5px;font-weight:800;flex:1}
 .out-chev{color:var(--koud);transition:transform .2s;flex-shrink:0}
 .out-chev.open{transform:rotate(180deg)}
-.out-body{padding:0 18px 18px;display:none}
+.out-body{padding:0 20px 20px;display:none}
 .out-body.open{display:block}
 
-/* Content elements */
-.kv-row{display:flex;gap:12px;padding:10px 14px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);margin-bottom:6px;margin-top:6px}
-.kv-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gl);min-width:110px;padding-top:3px;flex-shrink:0;line-height:1.3}
-.kv-val{font-size:13.5px;color:var(--muted);line-height:1.65}
-.usp-item{padding:14px 16px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);margin-bottom:6px;margin-top:6px}
-.usp-num{font-size:9px;font-weight:800;letter-spacing:.08em;color:var(--gl);margin-bottom:4px}
-.usp-tit{font-size:14px;font-weight:800;margin-bottom:5px}
-.usp-desc{font-size:13px;color:var(--muted);line-height:1.6}
-.kw-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.kw-item{padding:12px 16px;background:rgba(124,167,63,.05);border:1px solid rgba(124,167,63,.15);border-radius:var(--r);flex:1;min-width:150px}
-.kw-waarde{font-size:14px;font-weight:800;color:var(--gl);margin-bottom:4px}
-.kw-uitleg{font-size:12px;color:var(--muted);line-height:1.5}
-.tov-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.pill-yes{padding:5px 12px;border-radius:999px;font-size:11.5px;font-weight:600;background:rgba(124,167,63,.1);border:1px solid rgba(124,167,63,.2);color:var(--gl)}
-.pill-no{padding:5px 12px;border-radius:999px;font-size:11.5px;font-weight:600;background:rgba(217,113,62,.07);border:1px solid rgba(217,113,62,.2);color:var(--rood)}
-.voorbeeld-box{background:rgba(124,167,63,.04);border:1px solid rgba(124,167,63,.12);border-radius:var(--rsm);padding:14px 16px;margin-top:8px;font-size:14px;color:var(--muted);line-height:1.7;font-style:italic}
+/* Markdown content */
+.md-content{margin-top:4px}
+.md-content p{font-size:13.5px;color:var(--muted);line-height:1.7;margin-bottom:10px}
+.md-content h3{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gl);margin:18px 0 8px}
+.md-content h4{font-size:13px;font-weight:700;color:var(--ink);margin:14px 0 6px}
+.md-content ul{padding-left:0;margin-bottom:10px;list-style:none}
+.md-content ul li{font-size:13.5px;color:var(--muted);line-height:1.65;padding:4px 0 4px 20px;position:relative}
+.md-content ul li::before{content:"—";position:absolute;left:0;color:var(--gl);font-weight:700}
+.md-content ol{padding-left:0;margin-bottom:10px;list-style:none;counter-reset:ol}
+.md-content ol li{font-size:13.5px;color:var(--muted);line-height:1.65;padding:4px 0 4px 24px;position:relative;counter-increment:ol}
+.md-content ol li::before{content:counter(ol);position:absolute;left:0;color:var(--gl);font-weight:800;font-size:11px}
+.md-content strong{color:var(--ink);font-weight:700}
+.md-content em{color:var(--muted);font-style:italic}
+.md-content blockquote{background:rgba(124,167,63,.05);border-left:3px solid var(--g);padding:12px 16px;border-radius:0 var(--rsm) var(--rsm) 0;margin:10px 0;font-size:13.5px;color:var(--muted);line-height:1.7;font-style:italic}
+.md-content hr{border:none;border-top:1px solid var(--bd);margin:16px 0}
 
-.actions{display:flex;gap:10px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+.actions{display:flex;gap:10px;justify-content:center;margin-top:28px;flex-wrap:wrap}
 .act-btn{padding:11px 24px;border-radius:999px;font-family:var(--fn);font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:.12s}
 .act-primary{background:var(--g);color:#fff;border:none}
 .act-primary:hover{background:var(--gl)}
@@ -168,53 +166,42 @@ h1 em{font-style:normal;color:var(--gl)}
 
 footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-top:1px solid var(--line);letter-spacing:.06em;text-transform:uppercase;margin-top:auto}
 
-@media(max-width:580px){
-  .field-row.c2{grid-template-columns:1fr}
+@media(max-width:600px){
+  .field-row.c2,.field-row.c3{grid-template-columns:1fr}
   .prog-label{display:none}
-  .prog-line{width:24px}
-  .kv-row{flex-direction:column;gap:4px}
-  .kv-lbl{min-width:auto}
+  .prog-line{width:20px}
 }
+
+/* ── PRINT / PDF ── */
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
-  .top,.modal-bg,.actions,.key-btn,.progress,
-  .hero,.wizard > .step-card,.loading-card,
-  footer{display:none!important}
-  #printHeader{display:block!important;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #7CA73F}
-  body{background:#fff!important;color:#111!important;font-family:"Raleway",sans-serif}
+  .top,.modal-bg,.actions,.key-btn,.progress,.hero,
+  .wizard>.step-card,.loading-card,footer{display:none!important}
+  #printHeader{display:block!important;margin-bottom:16px;padding-bottom:14px;border-bottom:2px solid #7CA73F}
+  body{background:#fff!important;color:#111!important}
   .wizard{max-width:100%;padding:0}
   .results-section{display:block!important}
-  .res-head{padding:20px 0 16px;border-bottom:2px solid #7CA73F;margin-bottom:20px}
-  .res-badge{color:#666;font-size:10px;letter-spacing:.12em}
-  .res-title{color:#111;font-size:28px}
-  .res-sub{color:#666}
-  .out-card{border:1px solid #ddd!important;break-inside:avoid;margin-bottom:12px!important;border-radius:8px!important;background:#fff!important}
-  .out-head{background:#f7f7f7!important;padding:12px 16px!important}
+  .res-head{padding:16px 0;border-bottom:1px solid #ddd;margin-bottom:20px}
+  .res-badge,.res-sub{color:#666!important}
+  .res-title{color:#111!important}
+  .out-card{border:1px solid #ddd!important;break-inside:avoid;margin-bottom:12px!important;background:#fff!important}
+  .out-head{background:#f7f7f7!important;padding:10px 14px!important}
   .out-badge{background:#eaf3df!important;color:#5a8a2a!important}
-  .out-title{color:#111!important;font-size:14px!important}
+  .out-title{color:#111!important}
   .out-chev{display:none!important}
-  .out-body{display:block!important;padding:12px 16px 16px!important}
-  .kv-row{background:#fafafa!important;border-color:#e8e8e8!important;margin-bottom:5px!important;border-radius:6px!important}
-  .kv-lbl{color:#5a8a2a!important;font-size:9px!important}
-  .kv-val{color:#333!important;font-size:13px!important}
-  .usp-item{background:#fafafa!important;border-color:#e8e8e8!important;border-radius:6px!important;margin-bottom:6px!important}
-  .usp-num{color:#5a8a2a!important}
-  .usp-tit{color:#111!important}
-  .usp-desc{color:#444!important}
-  .kw-grid{gap:6px!important}
-  .kw-item{background:#f0f7e6!important;border-color:#c8dfa8!important;border-radius:6px!important}
-  .kw-waarde{color:#3d6b1a!important}
-  .kw-uitleg{color:#555!important}
-  .pill-yes{background:#eaf3df!important;border-color:#c8dfa8!important;color:#3d6b1a!important}
-  .pill-no{background:#fdf0ea!important;border-color:#f2c4a8!important;color:#b05a2a!important}
-  .voorbeeld-box{background:#f7fbf0!important;border-color:#c8dfa8!important;color:#444!important}
-  .tov-pills{flex-wrap:wrap!important;gap:4px!important}
+  .out-body{display:block!important;padding:10px 14px 14px!important}
+  .md-content p,.md-content ul li,.md-content ol li{color:#333!important;font-size:12.5px!important}
+  .md-content h3{color:#5a8a2a!important}
+  .md-content h4{color:#111!important}
+  .md-content strong{color:#111!important}
+  .md-content blockquote{background:#f7fbf0!important;border-color:#c8dfa8!important;color:#444!important}
+  .md-content ul li::before,.md-content ol li::before{color:#5a8a2a!important}
 }
 </style>
 </head>
 <body>
 
-<!-- SETUP MODAL -->
+<!-- ── MODAL ── -->
 <div class="modal-bg" id="setupModal">
   <div class="modal">
     <div class="modal-logo">
@@ -222,11 +209,7 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
       <div class="modal-brand">Spring Real Estate</div>
     </div>
     <h2>Groq API-sleutel instellen</h2>
-    <p>
-      De Branding Agent gebruikt Groq's compound-model voor real-time marktonderzoek en AI-merkstrategie.
-      Maak een gratis sleutel aan op <a class="modal-link" href="https://console.groq.com" target="_blank">console.groq.com</a>
-      → API Keys → Create API key.
-    </p>
+    <p>De Branding Agent gebruikt Groq's compound-model voor real-time marktonderzoek en het genereren van het Brand Foundation Document. Maak een gratis sleutel aan op <a class="modal-link" href="https://console.groq.com" target="_blank">console.groq.com</a> → API Keys → Create API key.</p>
     <div class="modal-field">
       <label class="modal-lbl" for="apiKeyInput">Groq API-sleutel</label>
       <input class="modal-input" id="apiKeyInput" type="password" placeholder="gsk_..." autocomplete="off" spellcheck="false">
@@ -236,87 +219,86 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
   </div>
 </div>
 
-<!-- TOP BAR -->
+<!-- ── TOP BAR ── -->
 <div class="top">
   <div class="s-mark">S</div>
-  <div class="v-sep"></div>
+  <div class="v-sep" style="width:1px;height:20px;background:var(--line)"></div>
   <div>
     <div class="brand-name">Spring Real Estate</div>
-    <div class="brand-sub">Branding Agent · Nieuwbouwprojecten</div>
+    <div class="brand-sub">Brand Foundation Agent · Nieuwbouwprojecten</div>
   </div>
   <div class="top-right">
     <button class="key-btn" onclick="resetKey()">⚙ Sleutel</button>
   </div>
 </div>
 
-<!-- HERO -->
+<!-- ── HERO ── -->
 <div class="hero" id="hero">
-  <div class="eyebrow">Nieuwbouw · AI-merkstrategie · Groq Compound Search</div>
-  <h1>Vertel over je project,<br><em>wij bouwen je merk</em></h1>
-  <p class="sub">Beantwoord drie stappen vragen. Onze agent doet marktonderzoek en genereert merkidentiteit, positionering, tone of voice, USP's en kernwaarden.</p>
+  <div class="eyebrow">Nieuwbouw · AI-merkstrategie · Brand Foundation Document</div>
+  <h1>Van projectinfo<br><em>naar compleet merkfundament</em></h1>
+  <p class="sub">Vul de intake in, de agent doet marktonderzoek en genereert één volledig Brand Foundation Document — direct bruikbaar voor naming, copy, visual identity, website en sales.</p>
   <div class="caps">
-    <div class="cap-pill"><div class="cap-dot"></div>Merkidentiteit</div>
     <div class="cap-pill"><div class="cap-dot"></div>Positionering</div>
-    <div class="cap-pill"><div class="cap-dot"></div>Tone of Voice</div>
+    <div class="cap-pill"><div class="cap-dot"></div>Merkidentiteit</div>
     <div class="cap-pill"><div class="cap-dot"></div>USP's</div>
-    <div class="cap-pill"><div class="cap-dot"></div>Kernwaarden</div>
+    <div class="cap-pill"><div class="cap-dot"></div>Tone of Voice</div>
+    <div class="cap-pill"><div class="cap-dot"></div>Messaging House</div>
+    <div class="cap-pill"><div class="cap-dot"></div>Voorbeeldcopy</div>
+    <div class="cap-pill"><div class="cap-dot"></div>Sales &amp; Marketing</div>
   </div>
 </div>
 
-<!-- WIZARD -->
+<!-- ── WIZARD ── -->
 <div class="wizard" id="wizardSection">
 
-  <!-- Progress -->
   <div class="progress" id="progressBar">
     <div class="prog-step">
       <div class="prog-dot active" id="dot1">1</div>
-      <span class="prog-label">Project</span>
+      <span class="prog-label">Project &amp; Locatie</span>
     </div>
     <div class="prog-line" id="line1"></div>
     <div class="prog-step">
       <div class="prog-dot" id="dot2">2</div>
-      <span class="prog-label">Doelgroep</span>
+      <span class="prog-label">Doelgroep &amp; Markt</span>
     </div>
     <div class="prog-line" id="line2"></div>
     <div class="prog-step">
       <div class="prog-dot" id="dot3">3</div>
-      <span class="prog-label">Sfeer & Visie</span>
+      <span class="prog-label">Visie &amp; Merk</span>
     </div>
   </div>
 
-  <!-- ── STAP 1: PROJECT BASIS ── -->
+  <!-- ── STAP 1 ── -->
   <div class="step-card active" id="step1">
-    <div class="step-title">Project basisinformatie</div>
-    <div class="step-sub">De kern van het nieuwbouwproject — locatie, type en segment vormen het fundament van je merk.</div>
+    <div class="step-title">Project &amp; Locatie</div>
+    <div class="step-sub">Vul in wat je weet. Wat onbekend is mag je leeg laten — de agent zoekt ontbrekende informatie zelf op.</div>
 
+    <div class="section-divider">Projectgegevens</div>
     <div class="field-row c2">
       <div class="field">
-        <label class="fld-lbl" for="projNaam">Werknaam project</label>
-        <input class="fld-inp" id="projNaam" type="text" placeholder="bijv. Havenkwartier" autocomplete="off">
+        <label class="fld-lbl" for="f_naam">Projectnaam / werktitel</label>
+        <input class="fld-inp" id="f_naam" type="text" placeholder="bijv. Havenkwartier" autocomplete="off">
       </div>
       <div class="field">
-        <label class="fld-lbl" for="projLocatie">Locatie (gemeente + wijk)</label>
-        <input class="fld-inp" id="projLocatie" type="text" placeholder="bijv. Amsterdam Noord, Buiksloterham" autocomplete="off">
+        <label class="fld-lbl" for="f_locatie">Locatie (gemeente + wijk)</label>
+        <input class="fld-inp" id="f_locatie" type="text" placeholder="bijv. Amsterdam Noord, Buiksloterham" autocomplete="off">
       </div>
     </div>
-
-    <div class="field">
-      <label class="fld-lbl">Type woningen</label>
-      <div class="chip-group" id="typeChips">
-        <div class="chip" onclick="chip(this,'type')">Appartementen</div>
-        <div class="chip" onclick="chip(this,'type')">Grondgebonden</div>
-        <div class="chip" onclick="chip(this,'type')">Villa's / vrijstaand</div>
-        <div class="chip" onclick="chip(this,'type')">Stadswoningen</div>
-        <div class="chip" onclick="chip(this,'type')">Gemengd</div>
-        <div class="chip" onclick="chip(this,'type')">Wonen + bedrijfsruimte</div>
-      </div>
-    </div>
-
     <div class="field-row c2">
       <div class="field">
-        <label class="fld-lbl" for="prijsseg">Prijssegment</label>
-        <select class="fld-sel" id="prijsseg">
-          <option value="">Kies segment…</option>
+        <label class="fld-lbl" for="f_ontwikkelaar">Ontwikkelaar <span class="opt-tag">optioneel</span></label>
+        <input class="fld-inp" id="f_ontwikkelaar" type="text" placeholder="bijv. Heijmans, AM" autocomplete="off">
+      </div>
+      <div class="field">
+        <label class="fld-lbl" for="f_architect">Architect <span class="opt-tag">optioneel</span></label>
+        <input class="fld-inp" id="f_architect" type="text" placeholder="bijv. MVRDV, OMA" autocomplete="off">
+      </div>
+    </div>
+    <div class="field-row c3">
+      <div class="field">
+        <label class="fld-lbl" for="f_prijsseg">Prijssegment</label>
+        <select class="fld-sel" id="f_prijsseg">
+          <option value="">Kies…</option>
           <option>Sociale huur (&lt; €900/mnd)</option>
           <option>Middenhuur (€900–€1.500/mnd)</option>
           <option>Vrije sector huur (&gt; €1.500/mnd)</option>
@@ -327,14 +309,66 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
         </select>
       </div>
       <div class="field">
-        <label class="fld-lbl" for="aantalWon">Projectomvang</label>
-        <select class="fld-sel" id="aantalWon">
-          <option value="">Kies omvang…</option>
-          <option>Kleinschalig (&lt; 50 woningen)</option>
-          <option>Middelgroot (50–150 woningen)</option>
-          <option>Groot (150–400 woningen)</option>
-          <option>Grootschalig (&gt; 400 woningen)</option>
+        <label class="fld-lbl" for="f_omvang">Projectomvang</label>
+        <select class="fld-sel" id="f_omvang">
+          <option value="">Kies…</option>
+          <option>Klein (&lt; 50 won.)</option>
+          <option>Middelgroot (50–150 won.)</option>
+          <option>Groot (150–400 won.)</option>
+          <option>Grootschalig (&gt; 400 won.)</option>
         </select>
+      </div>
+      <div class="field">
+        <label class="fld-lbl" for="f_fase">Verkoopfase <span class="opt-tag">optioneel</span></label>
+        <input class="fld-inp" id="f_fase" type="text" placeholder="bijv. start verkoop Q3 2026" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="fld-lbl">Type woningen</label>
+      <div class="chip-group">
+        <div class="chip" onclick="chip(this,'type')">Appartementen</div>
+        <div class="chip" onclick="chip(this,'type')">Grondgebonden</div>
+        <div class="chip" onclick="chip(this,'type')">Villa's / vrijstaand</div>
+        <div class="chip" onclick="chip(this,'type')">Stadswoningen</div>
+        <div class="chip" onclick="chip(this,'type')">Gemengd</div>
+        <div class="chip" onclick="chip(this,'type')">Wonen + bedrijf</div>
+        <div class="chip" onclick="chip(this,'type')">Huur</div>
+        <div class="chip" onclick="chip(this,'type')">Koop</div>
+        <div class="chip" onclick="chip(this,'type')">Gemengd koop/huur</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="fld-lbl" for="f_opp">Oppervlakten indicatief <span class="opt-tag">optioneel</span></label>
+      <input class="fld-inp" id="f_opp" type="text" placeholder="bijv. 60–140 m², penthouses tot 220 m²" autocomplete="off">
+    </div>
+
+    <div class="section-divider">Projectkenmerken</div>
+    <div class="field">
+      <label class="fld-lbl" for="f_kenmerken">Belangrijkste kenmerken van het plan</label>
+      <textarea class="fld-ta" id="f_kenmerken" placeholder="bijv. Directe waterkant, daktuinen, inpandig parkeren, EPC 0, gemeenschappelijke lounge op de 10e verdieping…"></textarea>
+    </div>
+    <div class="field">
+      <label class="fld-lbl">Duurzaamheidsprofiel</label>
+      <div class="chip-group">
+        <div class="chip" onclick="chip(this,'duur')">Energieneutraal (BENG)</div>
+        <div class="chip" onclick="chip(this,'duur')">Gasloos</div>
+        <div class="chip" onclick="chip(this,'duur')">BREEAM</div>
+        <div class="chip" onclick="chip(this,'duur')">Circulair</div>
+        <div class="chip" onclick="chip(this,'duur')">Groen dak</div>
+        <div class="chip" onclick="chip(this,'duur')">Zonnepanelen</div>
+        <div class="chip" onclick="chip(this,'duur')">Niet prominente focus</div>
+      </div>
+    </div>
+    <div class="field-row c2">
+      <div class="field">
+        <label class="fld-lbl" for="f_sterk">Sterkste punten / ligging</label>
+        <textarea class="fld-ta" id="f_sterk" style="min-height:70px" placeholder="bijv. 5 min lopen van metrostation, zuidgericht, uitzicht op IJ…"></textarea>
+      </div>
+      <div class="field">
+        <label class="fld-lbl" for="f_zwak">Bekende beperkingen <span class="opt-tag">optioneel</span></label>
+        <textarea class="fld-ta" id="f_zwak" style="min-height:70px" placeholder="bijv. drukke weg aan noordzijde, locatie nog onbekend bij publiek…"></textarea>
       </div>
     </div>
 
@@ -344,14 +378,15 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
     </div>
   </div>
 
-  <!-- ── STAP 2: DOELGROEP ── -->
+  <!-- ── STAP 2 ── -->
   <div class="step-card" id="step2">
-    <div class="step-title">Doelgroep &amp; marktpositie</div>
-    <div class="step-sub">Wie zijn de ideale bewoners en wat onderscheidt dit project van de concurrentie?</div>
+    <div class="step-title">Doelgroep &amp; Markt</div>
+    <div class="step-sub">Wie zijn de kopers en in welke markt opereert het project? De agent zoekt concurrenten en marktdata zelf op.</div>
 
+    <div class="section-divider">Doelgroep</div>
     <div class="field">
       <label class="fld-lbl">Primaire doelgroep (meerdere mogelijk)</label>
-      <div class="chip-group" id="doelChips">
+      <div class="chip-group">
         <div class="chip" onclick="chip(this,'doel')">Starters</div>
         <div class="chip" onclick="chip(this,'doel')">Jonge gezinnen</div>
         <div class="chip" onclick="chip(this,'doel')">Doorstromers</div>
@@ -362,15 +397,35 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
         <div class="chip" onclick="chip(this,'doel')">Expats / internationaal</div>
       </div>
     </div>
-
     <div class="field">
-      <label class="fld-lbl" for="uspInput">Unieke projectkenmerken &amp; locatievoordelen</label>
-      <textarea class="fld-ta" id="uspInput" placeholder="bijv. Directe waterkant, eigen aanlegsteiger, energieneutraal, rooftop garden, autoluwe wijk, nabij OV-knooppunt…"></textarea>
+      <label class="fld-lbl" for="f_doel2">Secundaire doelgroep <span class="opt-tag">optioneel</span></label>
+      <input class="fld-inp" id="f_doel2" type="text" placeholder="bijv. tweeverdieners zonder kinderen, 35–50 jaar" autocomplete="off">
+    </div>
+    <div class="field-row c2">
+      <div class="field">
+        <label class="fld-lbl" for="f_motieven">Belangrijkste koopmotieven</label>
+        <textarea class="fld-ta" id="f_motieven" style="min-height:80px" placeholder="bijv. meer ruimte voor thuiswerken, in de stad blijven wonen, investering…"></textarea>
+      </div>
+      <div class="field">
+        <label class="fld-lbl" for="f_bezwaren">Verwachte bezwaren kopers <span class="opt-tag">optioneel</span></label>
+        <textarea class="fld-ta" id="f_bezwaren" style="min-height:80px" placeholder="bijv. prijs, onbekende locatie, bouwtijd te lang…"></textarea>
+      </div>
     </div>
 
+    <div class="section-divider">Locatie &amp; Omgeving</div>
     <div class="field">
-      <label class="fld-lbl" for="concInput">Concurrerende of vergelijkbare projecten (optioneel)</label>
-      <input class="fld-inp" id="concInput" type="text" placeholder="bijv. Houthavens, Haven-Stad Amsterdam, The Mark" autocomplete="off">
+      <label class="fld-lbl" for="f_karakter">Karakter van de locatie</label>
+      <textarea class="fld-ta" id="f_karakter" placeholder="bijv. Voormalig industrieterrein in transformatie, creatieve horeca, ambachtelijke bedrijven, groeiende wijk…"></textarea>
+    </div>
+    <div class="field">
+      <label class="fld-lbl" for="f_bereik">Bereikbaarheid &amp; voorzieningen</label>
+      <textarea class="fld-ta" id="f_bereik" style="min-height:70px" placeholder="bijv. 10 min naar Amsterdam CS, eigen pontje, supermarkt op 200m, basisschool op loopafstand…"></textarea>
+    </div>
+
+    <div class="section-divider">Concurrentie</div>
+    <div class="field">
+      <label class="fld-lbl" for="f_conc">Vergelijkbare of concurrerende projecten <span class="opt-tag">optioneel</span></label>
+      <textarea class="fld-ta" id="f_conc" style="min-height:70px" placeholder="bijv. Houthavens Amsterdam, Haven-Stad, De Hoef Utrecht — de agent zoekt er zelf meer op"></textarea>
     </div>
 
     <div class="step-nav">
@@ -379,85 +434,117 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
     </div>
   </div>
 
-  <!-- ── STAP 3: SFEER & VISIE ── -->
+  <!-- ── STAP 3 ── -->
   <div class="step-card" id="step3">
-    <div class="step-title">Sfeer, architectuur &amp; visie</div>
-    <div class="step-sub">De beleving en het karakter bepalen de emotionele kern van het merkprofiel.</div>
+    <div class="step-title">Visie &amp; Merkrichting</div>
+    <div class="step-sub">Geef de gewenste richting aan. Wat onbekend is laat je leeg.</div>
 
+    <div class="section-divider">Visie ontwikkelaar</div>
     <div class="field">
-      <label class="fld-lbl">Architectuurstijl</label>
-      <div class="chip-group" id="archChips">
-        <div class="chip" onclick="chip(this,'arch')">Modern / eigentijds</div>
-        <div class="chip" onclick="chip(this,'arch')">Industrieel / loft</div>
-        <div class="chip" onclick="chip(this,'arch')">Klassiek / traditioneel</div>
-        <div class="chip" onclick="chip(this,'arch')">Scandinavisch / minimalistisch</div>
-        <div class="chip" onclick="chip(this,'arch')">Biophilic / groen</div>
-        <div class="chip" onclick="chip(this,'arch')">Iconisch / landmark</div>
-        <div class="chip" onclick="chip(this,'arch')">Herbestemming / monumentaal</div>
+      <label class="fld-lbl" for="f_waarom">Waarom wordt dit project ontwikkeld?</label>
+      <textarea class="fld-ta" id="f_waarom" placeholder="bijv. Bijdragen aan de transformatie van het gebied, aantrekkelijke en betaalbare woningen voor doorstromers in de stad…"></textarea>
+    </div>
+    <div class="field-row c2">
+      <div class="field">
+        <label class="fld-lbl" for="f_uitstraling">Gewenste uitstraling</label>
+        <textarea class="fld-ta" id="f_uitstraling" style="min-height:70px" placeholder="bijv. Warm, menselijk, modern maar niet kil, stedelijk maar huiselijk…"></textarea>
+      </div>
+      <div class="field">
+        <label class="fld-lbl" for="f_niet_uitstraling">Ongewenste uitstraling <span class="opt-tag">optioneel</span></label>
+        <textarea class="fld-ta" id="f_niet_uitstraling" style="min-height:70px" placeholder="bijv. Niet te luxe, niet te nuchter, niet klinisch modern…"></textarea>
+      </div>
+    </div>
+    <div class="field">
+      <label class="fld-lbl" for="f_inspiratie">Merken of projecten ter inspiratie <span class="opt-tag">optioneel</span></label>
+      <input class="fld-inp" id="f_inspiratie" type="text" placeholder="bijv. The Student Hotel, NDSM, Houthavens — qua sfeer of aanpak" autocomplete="off">
+    </div>
+
+    <div class="section-divider">Merkvoorkeur</div>
+    <div class="field">
+      <label class="fld-lbl">Gewenste tone of voice</label>
+      <div class="chip-group">
+        <div class="chip" onclick="chip(this,'tov')">Warm &amp; menselijk</div>
+        <div class="chip" onclick="chip(this,'tov')">Inspirerend</div>
+        <div class="chip" onclick="chip(this,'tov')">Direct &amp; helder</div>
+        <div class="chip" onclick="chip(this,'tov')">Verfijnd</div>
+        <div class="chip" onclick="chip(this,'tov')">Nuchter &amp; eerlijk</div>
+        <div class="chip" onclick="chip(this,'tov')">Zakelijk</div>
+        <div class="chip" onclick="chip(this,'tov')">Luchtig &amp; toegankelijk</div>
+      </div>
+    </div>
+    <div class="field">
+      <label class="fld-lbl">Gewenst luxeniveau</label>
+      <div class="chip-group">
+        <div class="chip" onclick="chip(this,'luxe')">Betaalbaar &amp; toegankelijk</div>
+        <div class="chip" onclick="chip(this,'luxe')">Midden segment</div>
+        <div class="chip" onclick="chip(this,'luxe')">Premium</div>
+        <div class="chip" onclick="chip(this,'luxe')">Exclusief</div>
+      </div>
+    </div>
+    <div class="field-row c2">
+      <div class="field">
+        <label class="fld-lbl" for="f_merkwoorden">Gewenste merkwoorden <span class="opt-tag">optioneel</span></label>
+        <input class="fld-inp" id="f_merkwoorden" type="text" placeholder="bijv. eigenheid, gemeenschap, ruimte, licht, leven" autocomplete="off">
+      </div>
+      <div class="field">
+        <label class="fld-lbl" for="f_niet_woorden">Te vermijden woorden <span class="opt-tag">optioneel</span></label>
+        <input class="fld-inp" id="f_niet_woorden" type="text" placeholder="bijv. uniek, exclusief, bijzonder, luxe" autocomplete="off">
       </div>
     </div>
 
-    <div class="field">
-      <label class="fld-lbl">Duurzaamheidsprofiel</label>
-      <div class="chip-group" id="duurChips">
-        <div class="chip" onclick="chip(this,'duur')">Energieneutraal (BENG)</div>
-        <div class="chip" onclick="chip(this,'duur')">Volledig gasloos</div>
-        <div class="chip" onclick="chip(this,'duur')">BREEAM gecertificeerd</div>
-        <div class="chip" onclick="chip(this,'duur')">Circulair bouwen</div>
-        <div class="chip" onclick="chip(this,'duur')">Groen dak / waterretentie</div>
-        <div class="chip" onclick="chip(this,'duur')">Zonnepanelen inbegrepen</div>
-        <div class="chip" onclick="chip(this,'duur')">Niet prominente focus</div>
+    <div class="section-divider">Besluitvorming</div>
+    <div class="field-row c2">
+      <div class="field">
+        <label class="fld-lbl" for="f_goedkeuring">Wie keurt branding goed? <span class="opt-tag">optioneel</span></label>
+        <input class="fld-inp" id="f_goedkeuring" type="text" placeholder="bijv. directie ontwikkelaar + Spring" autocomplete="off">
       </div>
-    </div>
-
-    <div class="field">
-      <label class="fld-lbl" for="sfeervInput">Gewenste sfeer &amp; beleving (beschrijf vrij)</label>
-      <textarea class="fld-ta" id="sfeervInput" placeholder="bijv. Urbaan en levendig, maar met een rustige thuishaven. Kosmopolitisch met buurtgevoel. De energie van de stad zonder de hectiek…"></textarea>
-    </div>
-
-    <div class="field">
-      <label class="fld-lbl" for="extrasInput">Overige relevante informatie (optioneel)</label>
-      <input class="fld-inp" id="extrasInput" type="text" placeholder="bijv. bekende architect, historisch erfgoed, speciale voorzieningen, bouwjaar…" autocomplete="off">
+      <div class="field">
+        <label class="fld-lbl" for="f_status_doc">Gewenste documentstatus</label>
+        <select class="fld-sel" id="f_status_doc">
+          <option value="eerste concept">Eerste concept</option>
+          <option value="gereed voor interne beoordeling">Gereed voor interne beoordeling</option>
+          <option value="gereed voor bespreking met ontwikkelaar">Gereed voor bespreking ontwikkelaar</option>
+        </select>
+      </div>
     </div>
 
     <div class="step-nav">
       <button class="btn-back" onclick="goStep(2)">← Terug</button>
-      <button class="btn-next" id="runBtn" onclick="runAgent()">Analyseer project →</button>
+      <button class="btn-next" id="runBtn" onclick="runAgent()">Brand Foundation genereren →</button>
     </div>
   </div>
 
   <!-- ── LOADING ── -->
   <div class="loading-card" id="loadingCard">
     <div class="spinner" id="ldSpinner"></div>
-    <div class="ld-title" id="ldTitle">Branding Agent aan het werk…</div>
-    <div class="ld-sub" id="ldSub">Groq doorzoekt de markt en genereert je merkprofiel</div>
+    <div class="ld-title" id="ldTitle">Brand Foundation Agent aan het werk…</div>
+    <div class="ld-sub" id="ldSub">Markt wordt onderzocht, document wordt opgebouwd</div>
     <div class="ld-steps" id="ldSteps">
-      <div class="ld-step" id="ls0"><span class="ld-ico">🔍</span> Markt &amp; concurrentie onderzoeken</div>
-      <div class="ld-step" id="ls1"><span class="ld-ico">🎯</span> Doelgroep &amp; segment profileren</div>
-      <div class="ld-step" id="ls2"><span class="ld-ico">✍️</span> Merkidentiteit &amp; positionering schrijven</div>
-      <div class="ld-step" id="ls3"><span class="ld-ico">💡</span> USP's &amp; kernwaarden uitwerken</div>
+      <div class="ld-step" id="ls0"><span class="ld-ico">🔍</span> Concurrenten &amp; marktpositie opzoeken</div>
+      <div class="ld-step" id="ls1"><span class="ld-ico">🎯</span> Doelgroep &amp; segment analyseren</div>
+      <div class="ld-step" id="ls2"><span class="ld-ico">✍️</span> Positionering &amp; merkidentiteit schrijven</div>
+      <div class="ld-step" id="ls3"><span class="ld-ico">📋</span> 16-delig Brand Foundation Document samenstellen</div>
     </div>
     <div id="ldRetry" style="display:none;margin-top:20px">
-      <button class="btn-next" id="ldRetryBtn" style="margin:0 auto">Opnieuw proberen →</button>
+      <button class="btn-next" id="ldRetryBtn" style="margin:0 auto;display:block">Opnieuw proberen →</button>
     </div>
   </div>
 
   <!-- ── RESULTS ── -->
   <div class="results-section" id="resultsSection">
-    <!-- print-only header -->
     <div id="printHeader" style="display:none">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
-        <div style="width:32px;height:32px;background:#7CA73F;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff;flex-shrink:0">S</div>
+        <div style="width:32px;height:32px;background:#7CA73F;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff">S</div>
         <div>
           <div style="font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#7CA73F">Spring Real Estate</div>
-          <div style="font-size:10px;color:#888;letter-spacing:.06em;text-transform:uppercase">Branding Agent · Nieuwbouwprojecten</div>
+          <div style="font-size:10px;color:#888;letter-spacing:.06em;text-transform:uppercase">Brand Foundation Document · Nieuwbouwprojecten</div>
         </div>
       </div>
     </div>
     <div class="res-head">
       <div class="res-badge" id="resProjMeta"></div>
-      <div class="res-title">Jouw brandingprofiel</div>
-      <div class="res-sub">Gegenereerd via marktonderzoek &amp; AI-merkstrategie</div>
+      <div class="res-title">Brand Foundation Document</div>
+      <div class="res-sub">Gegenereerd via marktonderzoek &amp; AI-merkstrategie · Spring Real Estate</div>
     </div>
     <div id="outputCards"></div>
     <div class="actions">
@@ -472,10 +559,10 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-/* ── STATE ─────────────────────────────────────────── */
-const sel = { type:[], doel:[], arch:[], duur:[] };
+/* ── STATE ── */
+const sel = { type:[], duur:[], doel:[], tov:[], luxe:[] };
 
-/* ── API KEY ─────────────────────────────────────── */
+/* ── API KEY ── */
 function saveKey(){
   const k = document.getElementById('apiKeyInput').value.trim();
   if(!k.startsWith('gsk_')){ alert('Voer een geldige Groq-sleutel in (begint met gsk_).'); return; }
@@ -491,7 +578,7 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('apiKeyInput').addEventListener('keydown', e => { if(e.key==='Enter') saveKey(); });
 });
 
-/* ── CHIPS ──────────────────────────────────────── */
+/* ── CHIPS ── */
 function chip(el, group){
   el.classList.toggle('sel');
   const v = el.textContent.trim();
@@ -500,163 +587,168 @@ function chip(el, group){
   if(i > -1) arr.splice(i,1); else arr.push(v);
 }
 
-/* ── STEP NAV ────────────────────────────────────── */
+/* ── STEP NAV ── */
 let step = 1;
 function goStep(n){
   document.getElementById('step'+step).classList.remove('active');
   document.getElementById('step'+n).classList.add('active');
   step = n;
-  updateProgress(n);
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-function updateProgress(n){
   [1,2,3].forEach(i => {
-    const dot = document.getElementById('dot'+i);
-    dot.classList.remove('active','done');
-    if(i < n) dot.classList.add('done');
-    else if(i === n) dot.classList.add('active');
+    const d = document.getElementById('dot'+i);
+    d.classList.remove('active','done');
+    if(i < n) d.classList.add('done');
+    else if(i === n) d.classList.add('active');
   });
   [1,2].forEach(i => {
-    const line = document.getElementById('line'+i);
-    if(i < n) line.classList.add('done'); else line.classList.remove('done');
+    const l = document.getElementById('line'+i);
+    if(i < n) l.classList.add('done'); else l.classList.remove('done');
   });
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
-/* ── LOADING ANIMATION ───────────────────────────── */
+/* ── LOADING ANIMATION ── */
 let lsTimer = null;
 function startLoadingAnim(){
   let i = 0;
-  const steps = ['ls0','ls1','ls2','ls3'];
-  steps.forEach(id => document.getElementById(id).classList.remove('active','done'));
+  const ids = ['ls0','ls1','ls2','ls3'];
+  ids.forEach(id => { const el = document.getElementById(id); if(el){ el.classList.remove('active','done'); }});
   lsTimer = setInterval(()=>{
-    if(i > 0) { document.getElementById(steps[i-1]).classList.remove('active'); document.getElementById(steps[i-1]).classList.add('done'); }
-    if(i < steps.length) { document.getElementById(steps[i]).classList.add('active'); i++; }
-  }, 2500);
+    if(i > 0){ const prev = document.getElementById(ids[i-1]); if(prev){ prev.classList.remove('active'); prev.classList.add('done'); }}
+    if(i < ids.length){ const cur = document.getElementById(ids[i]); if(cur) cur.classList.add('active'); i++; }
+  }, 3000);
 }
-function stopLoadingAnim(){
-  if(lsTimer){ clearInterval(lsTimer); lsTimer = null; }
+function stopLoadingAnim(){ if(lsTimer){ clearInterval(lsTimer); lsTimer = null; }}
+
+/* ── COLLECT INTAKE ── */
+function collectIntake(){
+  const g = id => (document.getElementById(id)?.value || '').trim() || 'onbekend';
+  const naam = g('f_naam'); const locatie = g('f_locatie');
+  return {
+    naam, locatie,
+    raw: `PROJECTGEGEVENS
+Projectnaam / werktitel: ${naam}
+Locatie: ${locatie}
+Ontwikkelaar: ${g('f_ontwikkelaar')}
+Architect: ${g('f_architect')}
+Woningtypen: ${sel.type.join(', ') || 'onbekend'}
+Prijssegment: ${g('f_prijsseg')}
+Projectomvang: ${g('f_omvang')}
+Oppervlakten: ${g('f_opp')}
+Verkoopfase / planning: ${g('f_fase')}
+
+PROJECTKENMERKEN
+Belangrijkste kenmerken: ${g('f_kenmerken')}
+Duurzaamheid: ${sel.duur.join(', ') || 'onbekend'}
+Sterke punten / bijzondere ligging: ${g('f_sterk')}
+Bekende beperkingen: ${g('f_zwak')}
+
+DOELGROEP
+Primaire doelgroep: ${sel.doel.join(', ') || 'onbekend'}
+Secundaire doelgroep: ${g('f_doel2')}
+Koopmotieven: ${g('f_motieven')}
+Verwachte bezwaren: ${g('f_bezwaren')}
+
+LOCATIE EN OMGEVING
+Karakter locatie: ${g('f_karakter')}
+Bereikbaarheid & voorzieningen: ${g('f_bereik')}
+Bekende concurrenten / referentieprojecten: ${g('f_conc')}
+
+VISIE ONTWIKKELAAR
+Waarom dit project: ${g('f_waarom')}
+Gewenste uitstraling: ${g('f_uitstraling')}
+Ongewenste uitstraling: ${g('f_niet_uitstraling')}
+Inspirerende merken/projecten: ${g('f_inspiratie')}
+
+MERKVOORKEUR
+Tone of voice: ${sel.tov.join(', ') || 'onbekend'}
+Gewenst luxeniveau: ${sel.luxe.join(', ') || 'onbekend'}
+Gewenste merkwoorden: ${g('f_merkwoorden')}
+Te vermijden woorden: ${g('f_niet_woorden')}
+
+BESLUITVORMING
+Goedkeuring bij: ${g('f_goedkeuring')}
+Gewenste documentstatus: ${g('f_status_doc')}`
+  };
 }
 
-/* ── GROQ CALL ───────────────────────────────────── */
+/* ── GROQ ── */
+const SYSTEM_MSG = `Je bent een senior merkstrateeg voor Nederlandse nieuwbouwprojecten bij Spring Real Estate (projectmarketing & makelaardij). Spring combineert marketing en sales: houd rekening met creativiteit én verkoopbaarheid, doelgroep, vertrouwen en leadkwaliteit.
+
+Jouw taak: maak een volledig Brand Foundation Document op basis van de projectintake. Gebruik je zoekfunctie om actief te onderzoeken: vergelijkbare nieuwbouwprojecten in de regio, veelgebruikte marktclaims, doelgroepdata en concurrentiepositie.
+
+Output: één volledig Markdown-document met exact deze 16 ## secties, in volgorde:
+
+## 1. Managementsamenvatting
+## 2. Projectessentie
+## 3. Primaire doelgroep
+## 4. Markt en onderscheid
+## 5. Positionering
+## 6. Merkidentiteit
+## 7. USP's
+## 8. Kernwaarden
+## 9. Tone of voice
+## 10. Messaging House
+## 11. Voorbeeldcopy
+## 12. Creatieve richting
+## 13. Consequenties voor marketing
+## 14. Consequenties voor sales
+## 15. Openstaande punten
+## 16. Status
+
+Kwaliteitseisen:
+- Specifiek voor dit project — geen generieke marketingteksten
+- Commercieel bruikbaar voor makelaars en campagnes
+- Vermijd ZONDER onderbouwing: uniek, luxe, exclusief, duurzaam, levendig, groen, centraal, hoogwaardig, bijzonder, voor iedereen
+- Alle claims moeten bewijsbaar zijn
+- Markeer aannames met [aanname]
+- Bruikbaar voor: Naming, Storytelling, Visual Identity, Website, Brochure, Content, Campagne en Sales Agent`;
+
 async function runAgent(){
   const key = localStorage.getItem('groq_key');
   if(!key){ alert('API-sleutel ontbreekt. Klik op ⚙ Sleutel.'); return; }
+  const intake = collectIntake();
+  if(!intake.locatie || intake.locatie === 'onbekend'){ alert('Vul minimaal de locatie in (stap 1).'); return; }
 
-  const naam    = document.getElementById('projNaam').value.trim() || 'Onbekend project';
-  const locatie = document.getElementById('projLocatie').value.trim();
-  const type    = sel.type.join(', ') || 'niet opgegeven';
-  const prijs   = document.getElementById('prijsseg').value || 'niet opgegeven';
-  const aantal  = document.getElementById('aantalWon').value || 'niet opgegeven';
-  const doel    = sel.doel.join(', ') || 'niet opgegeven';
-  const usps    = document.getElementById('uspInput').value.trim() || 'geen specifieke kenmerken opgegeven';
-  const conc    = document.getElementById('concInput').value.trim() || 'geen';
-  const arch    = sel.arch.join(', ') || 'niet opgegeven';
-  const duur    = sel.duur.join(', ') || 'niet opgegeven';
-  const sfeer   = document.getElementById('sfeervInput').value.trim() || 'niet opgegeven';
-  const extras  = document.getElementById('extrasInput').value.trim() || 'geen';
-
-  if(!locatie){ alert('Vul minimaal de locatie in bij stap 1.'); return; }
-
-  /* Show loading */
   document.getElementById('step3').classList.remove('active');
   document.getElementById('progressBar').style.display = 'none';
   document.getElementById('loadingCard').classList.add('show');
   startLoadingAnim();
 
-  const prompt = `Je bent een senior brand strategist gespecialiseerd in Nederlandse nieuwbouw vastgoed.
+  const userMsg = `${intake.raw}
 
-Gebruik je zoekfunctie om actuele marktinformatie op te halen over:
-- Nieuwbouwprojecten en marktontwikkelingen in ${locatie}
-- Woningmarkttrends voor het segment: ${prijs}
-- Doelgroep-karakteristieken voor: ${doel}
-- Vergelijkbare/concurrerende projecten: ${conc}
+Instructie: Zoek online naar vergelijkbare nieuwbouwprojecten in ${intake.locatie}, actuele markttrends voor het segment en concurrentiepositie. Verwerk de gevonden informatie in het document.
 
-PROJECT INFORMATIE:
-• Werknaam: ${naam}
-• Locatie: ${locatie}
-• Type woningen: ${type}
-• Prijssegment: ${prijs}
-• Projectomvang: ${aantal}
-• Primaire doelgroep: ${doel}
-• Unieke kenmerken / locatievoordelen: ${usps}
-• Architectuurstijl: ${arch}
-• Duurzaamheid: ${duur}
-• Gewenste sfeer / beleving: ${sfeer}
-• Overige info: ${extras}
+Maak nu het volledige Brand Foundation Document voor ${intake.naam}.`;
 
-Genereer op basis van je onderzoek een volledig, professioneel en concreet brandingprofiel. Wees specifiek — geen generieke teksten. Onderbouw keuzes met marktinzichten.
-
-Antwoord UITSLUITEND met geldige JSON (geen markdown, geen uitleg buiten de JSON):
-{
-  "merkidentiteit": {
-    "essence": "De kerngedachte van het merk in één krachtige zin",
-    "persoonlijkheid": "Beschrijf de merkpersoonlijkheid in 3-4 zinnen",
-    "belofte": "De merkbelofte aan toekomstige bewoners in één zin",
-    "karakter": "Vijf adjectieven die het merk precies beschrijven, kommagescheiden"
-  },
-  "positionering": {
-    "statement": "Volledige positioneringsverklaring (2-3 krachtige zinnen)",
-    "marktpositie": "Hoe dit project zich verhoudt tot de markt en concurrentie",
-    "concurrentievoordeel": "Het duurzame, verdedigbare concurrentievoordeel",
-    "doelgroep_fit": "Waarom dit merk precies aansluit bij de doelgroep"
-  },
-  "toneofvoice": {
-    "toon": "Beschrijf de communicatietoon in 2 zinnen",
-    "stijl": "Schrijfstijlomschrijving: zinslengte, woordkeuze, ritme",
-    "dos": ["Concreet do 1", "Concreet do 2", "Concreet do 3", "Concreet do 4"],
-    "donts": ["Concreet dont 1", "Concreet dont 2", "Concreet dont 3"],
-    "voorbeeld": "Een voorbeeldzin of -alinea in de juiste tone of voice voor dit project"
-  },
-  "usps": [
-    {"titel": "Naam USP 1", "omschrijving": "Concrete onderbouwing waarom dit een echte USP is (2 zinnen)"},
-    {"titel": "Naam USP 2", "omschrijving": "…"},
-    {"titel": "Naam USP 3", "omschrijving": "…"},
-    {"titel": "Naam USP 4", "omschrijving": "…"},
-    {"titel": "Naam USP 5", "omschrijving": "…"}
-  ],
-  "kernwaarden": [
-    {"waarde": "Waarde 1", "uitleg": "Wat deze waarde betekent voor dit project in één zin"},
-    {"waarde": "Waarde 2", "uitleg": "…"},
-    {"waarde": "Waarde 3", "uitleg": "…"},
-    {"waarde": "Waarde 4", "uitleg": "…"},
-    {"waarde": "Waarde 5", "uitleg": "…"}
-  ]
-}`;
-
-  await callGroq(naam, locatie, prijs, prompt, 0);
+  await callGroq(intake.naam, intake.locatie, userMsg, 0);
 }
 
-async function callGroq(naam, locatie, prijs, prompt, attempt){
+async function callGroq(naam, locatie, userMsg, attempt){
   const key = localStorage.getItem('groq_key');
   try {
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + key
-      },
+      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+key },
       body: JSON.stringify({
         model: 'compound-beta',
-        messages: [{ role:'user', content: prompt }],
-        temperature: 0.7,
-        max_tokens: 2500
+        messages: [
+          { role:'system', content: SYSTEM_MSG },
+          { role:'user', content: userMsg }
+        ],
+        temperature: 0.65,
+        max_tokens: 5000
       })
     });
 
     const data = await res.json();
 
-    /* Rate limit → auto-retry met countdown */
     if(res.status === 429){
-      const secs = Math.ceil(parseFloat(
-        (data.error?.message || '').match(/in\s+([\d.]+)s/)?.[1] || '20'
-      )) + 2;
-
+      const secs = Math.ceil(parseFloat((data.error?.message||'').match(/in\s+([\d.]+)s/)?.[1]||'25')) + 3;
       if(attempt < 2){
-        await showRetryCountdown(secs);
-        return callGroq(naam, locatie, prijs, prompt, attempt + 1);
+        await countdown(secs);
+        return callGroq(naam, locatie, userMsg, attempt + 1);
       } else {
-        /* Na 3 pogingen: toon retry-knop */
-        showRateLimitBlock(naam, locatie, prijs, prompt, secs);
+        showRetryBlock(naam, locatie, userMsg, secs);
         return;
       }
     }
@@ -664,15 +756,8 @@ async function callGroq(naam, locatie, prijs, prompt, attempt){
     if(!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
 
     stopLoadingAnim();
-
-    let raw = data.choices[0].message.content.trim();
-    raw = raw.replace(/^```json\s*/i,'').replace(/^```\s*/,'').replace(/\s*```$/,'');
-
-    let branding;
-    try { branding = JSON.parse(raw); }
-    catch(e){ throw new Error('JSON-parsing mislukt. Probeer opnieuw.'); }
-
-    renderResults(naam, locatie, prijs, branding);
+    const raw = data.choices[0].message.content.trim();
+    renderResults(naam, locatie, raw);
 
   } catch(e){
     stopLoadingAnim();
@@ -683,11 +768,11 @@ async function callGroq(naam, locatie, prijs, prompt, attempt){
   }
 }
 
-function showRetryCountdown(seconds){
+function countdown(seconds){
   return new Promise(resolve => {
-    const title = document.getElementById('ldTitle');
-    const sub   = document.getElementById('ldSub');
     const spinner = document.getElementById('ldSpinner');
+    const title   = document.getElementById('ldTitle');
+    const sub     = document.getElementById('ldSub');
     if(spinner) spinner.style.borderTopColor = '#d9713e';
     let s = seconds;
     const iv = setInterval(()=>{
@@ -696,136 +781,161 @@ function showRetryCountdown(seconds){
       s--;
       if(s < 0){
         clearInterval(iv);
-        if(title)   title.textContent = 'Branding Agent aan het werk…';
-        if(sub)     sub.textContent   = 'Groq doorzoekt de markt en genereert je merkprofiel';
         if(spinner) spinner.style.borderTopColor = '';
+        if(title) title.textContent = 'Brand Foundation Agent aan het werk…';
+        if(sub)   sub.textContent   = 'Markt wordt onderzocht, document wordt opgebouwd';
         resolve();
       }
     }, 1000);
   });
 }
 
-function showRateLimitBlock(naam, locatie, prijs, prompt, secs){
+function showRetryBlock(naam, locatie, userMsg, secs){
   stopLoadingAnim();
-  const title   = document.getElementById('ldTitle');
-  const sub     = document.getElementById('ldSub');
-  const steps   = document.getElementById('ldSteps');
-  const retryWrap = document.getElementById('ldRetry');
-  const retryBtn  = document.getElementById('ldRetryBtn');
-  const spinner   = document.getElementById('ldSpinner');
+  const spinner  = document.getElementById('ldSpinner');
+  const title    = document.getElementById('ldTitle');
+  const sub      = document.getElementById('ldSub');
+  const steps    = document.getElementById('ldSteps');
+  const retryDiv = document.getElementById('ldRetry');
+  const retryBtn = document.getElementById('ldRetryBtn');
 
-  if(spinner) spinner.style.display = 'none';
-  if(title)   title.textContent = 'Groq-limiet bereikt';
-  if(sub)     sub.textContent   = `Wacht nog even — daarna lukt het automatisch.`;
-  if(steps)   steps.style.display = 'none';
-  if(retryWrap) retryWrap.style.display = 'block';
+  if(spinner)  spinner.style.display = 'none';
+  if(title)    title.textContent  = 'Groq-limiet bereikt';
+  if(sub)      sub.textContent    = `Wacht even — de limiet reset automatisch.`;
+  if(steps)    steps.style.display= 'none';
+  if(retryDiv) retryDiv.style.display = 'block';
+  if(retryBtn) retryBtn.disabled = true;
 
   let s = secs;
-  if(retryBtn) retryBtn.disabled = true;
   const iv = setInterval(()=>{
     if(sub) sub.textContent = `Nog ${s} seconden wachten…`;
     s--;
     if(s < 0){
       clearInterval(iv);
       if(sub)     sub.textContent = 'Je kunt het nu opnieuw proberen.';
-      if(retryBtn){ retryBtn.disabled = false; retryBtn.textContent = 'Opnieuw proberen →'; }
+      if(retryBtn){ retryBtn.disabled = false; }
     }
   }, 1000);
 
   if(retryBtn) retryBtn.onclick = () => {
-    if(spinner)   { spinner.style.display = ''; spinner.style.borderTopColor = ''; }
-    if(title)     title.textContent = 'Branding Agent aan het werk…';
-    if(sub)       sub.textContent   = 'Groq doorzoekt de markt en genereert je merkprofiel';
-    if(steps)     steps.style.display = '';
-    if(retryWrap) retryWrap.style.display = 'none';
+    if(spinner)  { spinner.style.display = ''; spinner.style.borderTopColor = ''; }
+    if(title)    title.textContent = 'Brand Foundation Agent aan het werk…';
+    if(sub)      sub.textContent   = 'Markt wordt onderzocht, document wordt opgebouwd';
+    if(steps)    steps.style.display = '';
+    if(retryDiv) retryDiv.style.display = 'none';
     startLoadingAnim();
-    callGroq(naam, locatie, prijs, prompt, 0);
+    callGroq(naam, locatie, userMsg, 0);
   };
 }
 
-/* ── RENDER ─────────────────────────────────────── */
-function renderResults(naam, locatie, prijs, b){
+/* ── RENDER RESULTS ── */
+const SECTION_LABELS = [
+  '01','02','03','04','05','06','07','08',
+  '09','10','11','12','13','14','15','16'
+];
+
+function renderResults(naam, locatie, markdown){
   document.getElementById('loadingCard').classList.remove('show');
-  document.getElementById('resProjMeta').textContent = naam + ' · ' + locatie + ' · ' + prijs;
 
-  const mi = b.merkidentiteit || {};
-  const po = b.positionering || {};
-  const tv = b.toneofvoice || {};
-  const us = b.usps || [];
-  const kw = b.kernwaarden || [];
+  const meta = naam !== 'onbekend' ? naam : '';
+  document.getElementById('resProjMeta').textContent =
+    [meta, locatie].filter(s => s && s !== 'onbekend').join(' · ');
 
-  const cards = [
-    {
-      badge:'01', title:'Merkidentiteit', open:true,
-      body:`
-        ${kv('Kern­essence', mi.essence)}
-        ${kv('Persoonlijkheid', mi.persoonlijkheid)}
-        ${kv('Merk­belofte', mi.belofte)}
-        ${kv('Karakter', mi.karakter)}`
-    },
-    {
-      badge:'02', title:'Positionering', open:false,
-      body:`
-        ${kv('Statement', po.statement)}
-        ${kv('Markt­positie', po.marktpositie)}
-        ${kv('Concurrentie­voordeel', po.concurrentievoordeel)}
-        ${kv('Doelgroep fit', po.doelgroep_fit)}`
-    },
-    {
-      badge:'03', title:'Tone of Voice', open:false,
-      body:`
-        ${kv('Toon', tv.toon)}
-        ${kv('Schrijfstijl', tv.stijl)}
-        <div class="kv-row">
-          <div class="kv-lbl">Do's</div>
-          <div class="kv-val"><div class="tov-pills">${(tv.dos||[]).map(d=>`<span class="pill-yes">✓ ${esc(d)}</span>`).join('')}</div></div>
-        </div>
-        <div class="kv-row">
-          <div class="kv-lbl">Don'ts</div>
-          <div class="kv-val"><div class="tov-pills">${(tv.donts||[]).map(d=>`<span class="pill-no">✕ ${esc(d)}</span>`).join('')}</div>
-        </div>
-        <div class="voorbeeld-box">"${esc(tv.voorbeeld)}"</div>`
-    },
-    {
-      badge:"04", title:"USP's", open:false,
-      body: us.map((u,i)=>`
-        <div class="usp-item">
-          <div class="usp-num">USP ${String(i+1).padStart(2,'0')}</div>
-          <div class="usp-tit">${esc(u.titel)}</div>
-          <div class="usp-desc">${esc(u.omschrijving)}</div>
-        </div>`).join('')
-    },
-    {
-      badge:'05', title:'Kernwaarden', open:false,
-      body:`<div class="kw-grid">${kw.map(k=>`
-        <div class="kw-item">
-          <div class="kw-waarde">${esc(k.waarde)}</div>
-          <div class="kw-uitleg">${esc(k.uitleg)}</div>
-        </div>`).join('')}</div>`
+  /* Split markdown into sections by ## headings */
+  const sections = [];
+  const lines = markdown.split('\n');
+  let cur = null;
+  for(const line of lines){
+    if(line.startsWith('## ')){
+      if(cur) sections.push(cur);
+      cur = { title: line.slice(3).trim(), lines: [] };
+    } else if(cur){
+      cur.lines.push(line);
     }
-  ];
+  }
+  if(cur) sections.push(cur);
 
-  document.getElementById('outputCards').innerHTML = cards.map(c=>`
-    <div class="out-card">
+  /* If no ## sections found, render as one block */
+  if(!sections.length){
+    sections.push({ title: 'Brand Foundation Document', lines: lines });
+  }
+
+  document.getElementById('outputCards').innerHTML = sections.map((sec, i) => {
+    const badge = SECTION_LABELS[i] || String(i+1).padStart(2,'0');
+    const body  = mdToHtml(sec.lines.join('\n'));
+    const open  = i === 0;
+    return `<div class="out-card">
       <div class="out-head" onclick="toggleCard(this)">
-        <div class="out-badge">${c.badge}</div>
-        <div class="out-title">${c.title}</div>
-        <svg class="out-chev ${c.open?'open':''}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        <div class="out-badge">${badge}</div>
+        <div class="out-title">${escHtml(sec.title)}</div>
+        <svg class="out-chev ${open?'open':''}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
-      <div class="out-body ${c.open?'open':''}">${c.body}</div>
-    </div>`).join('');
+      <div class="out-body ${open?'open':''}"><div class="md-content">${body}</div></div>
+    </div>`;
+  }).join('');
 
   document.getElementById('resultsSection').classList.add('show');
   document.getElementById('resultsSection').scrollIntoView({behavior:'smooth', block:'start'});
 }
 
-function kv(label, val){
-  return `<div class="kv-row"><div class="kv-lbl">${label}</div><div class="kv-val">${esc(val)||'–'}</div></div>`;
+/* ── MARKDOWN → HTML ── */
+function mdToHtml(text){
+  const lines = text.split('\n');
+  let html = '';
+  let inUl = false, inOl = false;
+
+  const closeList = () => {
+    if(inUl){ html += '</ul>'; inUl = false; }
+    if(inOl){ html += '</ol>'; inOl = false; }
+  };
+
+  for(let i = 0; i < lines.length; i++){
+    const line = lines[i];
+    const trim = line.trim();
+    if(!trim){ closeList(); continue; }
+
+    if(trim.startsWith('### ')){
+      closeList();
+      html += `<h3>${inlineMd(trim.slice(4))}</h3>`;
+    } else if(trim.startsWith('#### ')){
+      closeList();
+      html += `<h4>${inlineMd(trim.slice(5))}</h4>`;
+    } else if(trim.startsWith('> ')){
+      closeList();
+      html += `<blockquote>${inlineMd(trim.slice(2))}</blockquote>`;
+    } else if(trim === '---' || trim === '***'){
+      closeList();
+      html += '<hr>';
+    } else if(/^- (.+)/.test(trim)){
+      if(inOl){ html += '</ol>'; inOl = false; }
+      if(!inUl){ html += '<ul>'; inUl = true; }
+      html += `<li>${inlineMd(trim.slice(2))}</li>`;
+    } else if(/^\d+\. (.+)/.test(trim)){
+      if(inUl){ html += '</ul>'; inUl = false; }
+      if(!inOl){ html += '<ol>'; inOl = true; }
+      html += `<li>${inlineMd(trim.replace(/^\d+\. /,''))}</li>`;
+    } else {
+      closeList();
+      html += `<p>${inlineMd(trim)}</p>`;
+    }
+  }
+  closeList();
+  return html;
 }
-function esc(s){
-  if(!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function inlineMd(text){
+  return text
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em>$1</em>')
+    .replace(/_(.+?)_/g,'<em>$1</em>')
+    .replace(/`(.+?)`/g,'<code>$1</code>');
 }
+
+function escHtml(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
 function toggleCard(head){
   const body = head.nextElementSibling;
   const chev = head.querySelector('.out-chev');
@@ -833,53 +943,46 @@ function toggleCard(head){
   chev.classList.toggle('open');
 }
 
-/* ── PDF EXPORT ─────────────────────────────────── */
+/* ── PDF EXPORT ── */
 async function exportPDF(){
   const btn = document.getElementById('exportBtn');
   btn.textContent = 'Bezig…';
   btn.disabled = true;
 
-  /* Open alle kaarten */
   document.querySelectorAll('.out-body').forEach(b => b.classList.add('open'));
   document.querySelectorAll('.out-chev').forEach(c => c.classList.add('open'));
 
-  /* Toon print-header */
   const ph = document.getElementById('printHeader');
   ph.style.display = 'block';
 
-  const el = document.getElementById('resultsSection');
-
-  const opt = {
-    margin:      [12, 14, 12, 14],
-    filename:    'brandingprofiel-spring.pdf',
-    image:       { type:'jpeg', quality:0.95 },
-    html2canvas: { scale:2, useCORS:true, backgroundColor:'#ffffff' },
-    jsPDF:       { unit:'mm', format:'a4', orientation:'portrait' },
-    pagebreak:   { mode:['avoid-all','css'] }
-  };
+  const naam = document.getElementById('resProjMeta').textContent || 'brand-foundation';
+  const filename = 'brand-foundation-' + naam.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40) + '.pdf';
 
   try {
-    await html2pdf().set(opt).from(el).save();
-  } catch(e) {
-    alert('PDF mislukt: ' + e.message);
-  }
+    await html2pdf().set({
+      margin:      [12, 14, 12, 14],
+      filename,
+      image:       { type:'jpeg', quality:0.95 },
+      html2canvas: { scale:2, useCORS:true, backgroundColor:'#ffffff' },
+      jsPDF:       { unit:'mm', format:'a4', orientation:'portrait' },
+      pagebreak:   { mode:['avoid-all','css'] }
+    }).from(document.getElementById('resultsSection')).save();
+  } catch(e){ alert('PDF mislukt: ' + e.message); }
 
   ph.style.display = 'none';
   btn.textContent = '↓ Exporteer PDF';
   btn.disabled = false;
 }
 
-/* ── RESET ─────────────────────────────────────── */
+/* ── RESET ── */
 function resetAll(){
   document.getElementById('resultsSection').classList.remove('show');
   document.getElementById('outputCards').innerHTML = '';
   document.getElementById('progressBar').style.display = 'flex';
   Object.keys(sel).forEach(k => sel[k] = []);
   document.querySelectorAll('.chip.sel').forEach(c => c.classList.remove('sel'));
-  ['projNaam','projLocatie','uspInput','concInput','sfeervInput','extrasInput'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  ['prijsseg','aantalWon'].forEach(id => { document.getElementById(id).value = ''; });
+  document.querySelectorAll('.fld-inp,.fld-ta').forEach(el => el.value = '');
+  document.querySelectorAll('.fld-sel').forEach(el => el.selectedIndex = 0);
   goStep(1);
 }
 </script>
