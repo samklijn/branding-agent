@@ -197,6 +197,31 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
   .md-content blockquote{background:#f7fbf0!important;border-color:#c8dfa8!important;color:#444!important}
   .md-content ul li::before,.md-content ol li::before{color:#5a8a2a!important}
 }
+
+/* ── UPLOAD UI ── */
+.upload-zone{border:1.5px dashed var(--bd);border-radius:var(--r);padding:22px;text-align:center;cursor:pointer;transition:.15s;position:relative}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--g);background:rgba(124,167,63,.04)}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-ico{font-size:24px;margin-bottom:8px}
+.upload-lbl{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:3px}
+.upload-sub{font-size:11px;color:var(--koud)}
+.file-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.file-item{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);font-size:12.5px}
+.file-ico{font-size:16px;flex-shrink:0}
+.file-name{flex:1;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-status{font-size:10px;font-weight:700;letter-spacing:.06em;flex-shrink:0}
+.file-status.ok{color:var(--gl)}
+.file-status.err{color:var(--rood)}
+.file-status.loading{color:var(--koud)}
+.file-remove{background:none;border:none;color:var(--koud);cursor:pointer;font-size:16px;padding:0 2px;line-height:1;flex-shrink:0}
+.file-remove:hover{color:var(--rood)}
+
+/* ── FEEDBACK SECTION ── */
+.feedback-section{margin-top:20px;background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:24px;display:none}
+.feedback-section.show{display:block}
+.fb-title{font-size:15px;font-weight:800;margin-bottom:4px}
+.fb-sub{font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.5}
+.fb-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:block}
 </style>
 </head>
 <body>
@@ -508,6 +533,18 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
       </div>
     </div>
 
+    <div class="section-divider">Aanvullende documenten <span class="opt-tag" style="font-size:9px;vertical-align:middle">optioneel</span></div>
+    <div class="field">
+      <label class="fld-lbl">Upload output van andere agents, analyses of referentiedocumenten</label>
+      <div class="upload-zone" id="intakeDropZone" ondragover="zoneDrag(event,true)" ondragleave="zoneDrag(event,false)" ondrop="zoneDrop(event,'intake')">
+        <input type="file" accept=".pdf,.doc,.docx,.txt" multiple onchange="filesAdded(this.files,'intake')">
+        <div class="upload-ico">📄</div>
+        <div class="upload-lbl">Sleep bestanden hierheen of klik om te selecteren</div>
+        <div class="upload-sub">PDF · Word (.docx) · Tekstbestand — bijv. Locatie Analyse, Markt Analyse, Concept Agent output</div>
+      </div>
+      <div class="file-list" id="intakeFileList"></div>
+    </div>
+
     <div class="step-nav">
       <button class="btn-back" onclick="goStep(2)">← Terug</button>
       <button class="btn-next" id="runBtn" onclick="runAgent()">Brand Foundation genereren →</button>
@@ -551,16 +588,42 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
       <button class="act-btn act-primary" id="exportBtn" onclick="exportPDF()">↓ Exporteer PDF</button>
       <button class="act-btn act-ghost" onclick="resetAll()">↺ Nieuw project</button>
     </div>
+
+    <!-- ── FEEDBACK ── -->
+    <div class="feedback-section" id="feedbackSection">
+      <div class="fb-title">Aanvullingen &amp; verfijning</div>
+      <div class="fb-sub">Geef feedback op het document of voeg extra bestanden toe. De agent past alleen de relevante onderdelen aan.</div>
+      <div class="field" style="margin-bottom:14px">
+        <label class="fb-label" for="fbText">Feedback / aanvullende opmerkingen</label>
+        <textarea class="fld-ta" id="fbText" style="min-height:100px" placeholder="bijv. USP 3 is te vaag — maak het specifieker voor gezinnen. Voeg een sterkere opening toe aan de hero-copy. Kernwaarde 'Duurzaamheid' mag concreter…"></textarea>
+      </div>
+      <div class="field" style="margin-bottom:18px">
+        <label class="fb-label">Extra documenten uploaden <span class="opt-tag">optioneel</span></label>
+        <div class="upload-zone" id="fbDropZone" ondragover="zoneDrag(event,true)" ondragleave="zoneDrag(event,false)" ondrop="zoneDrop(event,'fb')">
+          <input type="file" accept=".pdf,.doc,.docx,.txt" multiple onchange="filesAdded(this.files,'fb')">
+          <div class="upload-ico">📎</div>
+          <div class="upload-lbl">Sleep bestanden of klik om toe te voegen</div>
+          <div class="upload-sub">bijv. aanvullende marktanalyse, architectuuromschrijving, verkoopplan</div>
+        </div>
+        <div class="file-list" id="fbFileList"></div>
+      </div>
+      <button class="btn-next" id="refineBtn" onclick="refineDocument()" style="width:100%;justify-content:center">Document verfijnen →</button>
+    </div>
   </div>
 
 </div><!-- /wizard -->
 
 <footer>Spring Real Estate &nbsp;·&nbsp; Projectmarketing &amp; Makelaardij</footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
 /* ── STATE ── */
 const sel = { type:[], duur:[], doel:[], tov:[], luxe:[] };
+const uploadedFiles = { intake:[], fb:[] };  /* {name, text, status} */
+let lastGeneratedDoc = '';  /* voor de feedback-loop */
 
 /* ── API KEY ── */
 function saveKey(){
@@ -671,6 +734,75 @@ Gewenste documentstatus: ${g('f_status_doc')}`
   };
 }
 
+/* ── FILE UPLOAD ── */
+function zoneDrag(e, active){
+  e.preventDefault();
+  e.currentTarget.classList.toggle('drag', active);
+}
+function zoneDrop(e, zone){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag');
+  filesAdded(e.dataTransfer.files, zone);
+}
+function filesAdded(fileList, zone){
+  Array.from(fileList).forEach(file => {
+    const entry = { name: file.name, text: '', status: 'loading' };
+    uploadedFiles[zone].push(entry);
+    renderFileList(zone);
+    extractText(file).then(text => {
+      entry.text = text.slice(0, 6000);
+      entry.status = 'ok';
+      renderFileList(zone);
+    }).catch(() => {
+      entry.status = 'err';
+      renderFileList(zone);
+    });
+  });
+}
+function renderFileList(zone){
+  const list = document.getElementById(zone === 'intake' ? 'intakeFileList' : 'fbFileList');
+  if(!list) return;
+  list.innerHTML = uploadedFiles[zone].map((f, i) => `
+    <div class="file-item">
+      <span class="file-ico">${f.name.endsWith('.pdf') ? '📕' : f.name.endsWith('.docx')||f.name.endsWith('.doc') ? '📘' : '📄'}</span>
+      <span class="file-name" title="${escHtml(f.name)}">${escHtml(f.name)}</span>
+      <span class="file-status ${f.status}">${f.status==='loading'?'lezen…':f.status==='ok'?'✓ klaar':'✕ fout'}</span>
+      <button class="file-remove" onclick="removeFile('${zone}',${i})" title="Verwijderen">×</button>
+    </div>`).join('');
+}
+function removeFile(zone, i){
+  uploadedFiles[zone].splice(i, 1);
+  renderFileList(zone);
+}
+async function extractText(file){
+  const name = file.name.toLowerCase();
+  if(name.endsWith('.pdf')){
+    const buf = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+    let out = '';
+    for(let p = 1; p <= Math.min(pdf.numPages, 20); p++){
+      const page = await pdf.getPage(p);
+      const content = await page.getTextContent();
+      out += content.items.map(i => i.str).join(' ') + '\n';
+    }
+    return out.trim();
+  }
+  if(name.endsWith('.docx') || name.endsWith('.doc')){
+    const buf = await file.arrayBuffer();
+    const result = await mammoth.extractRawText({ arrayBuffer: buf });
+    return result.value.trim();
+  }
+  /* plain text */
+  return await file.text();
+}
+function buildDocContext(zone){
+  const files = uploadedFiles[zone].filter(f => f.status === 'ok' && f.text);
+  if(!files.length) return '';
+  return '\n\nAANGELEVERDE DOCUMENTEN:\n' + files.map(f =>
+    `--- ${f.name} ---\n${f.text}\n`
+  ).join('\n');
+}
+
 /* ── GROQ ── */
 const SYSTEM_MSG = `Je bent een senior merkstrateeg voor Nederlandse nieuwbouwprojecten bij Spring Real Estate (projectmarketing & makelaardij). Spring combineert marketing en sales: houd rekening met creativiteit én verkoopbaarheid, doelgroep, vertrouwen en leadkwaliteit.
 
@@ -714,9 +846,10 @@ async function runAgent(){
   document.getElementById('loadingCard').classList.add('show');
   startLoadingAnim();
 
-  const userMsg = `${intake.raw}
+  const docCtx = buildDocContext('intake');
+  const userMsg = `${intake.raw}${docCtx}
 
-Instructie: Zoek online naar vergelijkbare nieuwbouwprojecten in ${intake.locatie}, actuele markttrends voor het segment en concurrentiepositie. Verwerk de gevonden informatie in het document.
+Instructie: Zoek online naar vergelijkbare nieuwbouwprojecten in ${intake.locatie}, actuele markttrends voor het segment en concurrentiepositie. Verwerk de gevonden informatie in het document.${docCtx ? ' Verwerk ook de aangeleverde documenten hierboven als aanvullende context.' : ''}
 
 Maak nu het volledige Brand Foundation Document voor ${intake.naam}.`;
 
@@ -757,6 +890,7 @@ async function callGroq(naam, locatie, userMsg, attempt){
 
     stopLoadingAnim();
     const raw = data.choices[0].message.content.trim();
+    lastGeneratedDoc = raw;
     renderResults(naam, locatie, raw);
 
   } catch(e){
@@ -875,7 +1009,92 @@ function renderResults(naam, locatie, markdown){
   }).join('');
 
   document.getElementById('resultsSection').classList.add('show');
+  document.getElementById('feedbackSection').classList.add('show');
   document.getElementById('resultsSection').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* ── REFINE (feedback-loop) ── */
+async function refineDocument(){
+  const key = localStorage.getItem('groq_key');
+  if(!key){ alert('API-sleutel ontbreekt.'); return; }
+  if(!lastGeneratedDoc){ alert('Geen document beschikbaar om te verfijnen.'); return; }
+
+  const feedback = document.getElementById('fbText').value.trim();
+  const docCtx   = buildDocContext('fb');
+  if(!feedback && !docCtx){ alert('Geef feedback of voeg een document toe.'); return; }
+
+  const btn = document.getElementById('refineBtn');
+  btn.textContent = 'Bezig…'; btn.disabled = true;
+
+  document.getElementById('feedbackSection').classList.remove('show');
+  document.getElementById('loadingCard').classList.add('show');
+  document.getElementById('ldTitle').textContent  = 'Document wordt verfijnd…';
+  document.getElementById('ldSub').textContent    = 'Feedback verwerken en relevante secties aanpassen';
+  startLoadingAnim();
+
+  const naam    = document.getElementById('resProjMeta').textContent.split(' · ')[0] || 'project';
+  const locatie = document.getElementById('resProjMeta').textContent.split(' · ')[1] || '';
+
+  const refineMsg = `Hier is het eerder gegenereerde Brand Foundation Document:
+
+${lastGeneratedDoc}
+${docCtx}
+
+FEEDBACK VAN DE GEBRUIKER:
+${feedback || '(geen tekstfeedback — zie aanvullende documenten hierboven)'}
+
+Instructie:
+- Pas alleen de secties aan die door de feedback worden geraakt.
+- Behoud alle overige secties ongewijzigd (kopieer ze letterlijk).
+- Verwerk aanvullende documenten als extra context.
+- Geef het volledige herziene document terug in exact dezelfde ## structuur.
+- Noteer boven het document: GEWIJZIGDE SECTIES: [lijst] | REDEN: [feedback samenvatting]`;
+
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+key },
+      body: JSON.stringify({
+        model: 'compound-beta',
+        messages: [
+          { role:'system', content: SYSTEM_MSG },
+          { role:'user',   content: refineMsg }
+        ],
+        temperature: 0.5,
+        max_tokens: 5000
+      })
+    });
+
+    const data = await res.json();
+
+    if(res.status === 429){
+      const secs = Math.ceil(parseFloat((data.error?.message||'').match(/in\s+([\d.]+)s/)?.[1]||'25')) + 3;
+      await countdown(secs);
+      btn.textContent = 'Document verfijnen →'; btn.disabled = false;
+      document.getElementById('feedbackSection').classList.add('show');
+      document.getElementById('loadingCard').classList.remove('show');
+      stopLoadingAnim();
+      return;
+    }
+
+    if(!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
+
+    stopLoadingAnim();
+    const raw = data.choices[0].message.content.trim();
+    lastGeneratedDoc = raw;
+    renderResults(naam, locatie, raw);
+    document.getElementById('fbText').value = '';
+    uploadedFiles.fb = [];
+    renderFileList('fb');
+    btn.textContent = 'Document verfijnen →'; btn.disabled = false;
+
+  } catch(e){
+    stopLoadingAnim();
+    document.getElementById('loadingCard').classList.remove('show');
+    document.getElementById('feedbackSection').classList.add('show');
+    btn.textContent = 'Document verfijnen →'; btn.disabled = false;
+    alert('Fout: ' + e.message);
+  }
 }
 
 /* ── MARKDOWN → HTML ── */
@@ -977,9 +1196,13 @@ async function exportPDF(){
 /* ── RESET ── */
 function resetAll(){
   document.getElementById('resultsSection').classList.remove('show');
+  document.getElementById('feedbackSection').classList.remove('show');
   document.getElementById('outputCards').innerHTML = '';
   document.getElementById('progressBar').style.display = 'flex';
   Object.keys(sel).forEach(k => sel[k] = []);
+  Object.keys(uploadedFiles).forEach(k => uploadedFiles[k] = []);
+  renderFileList('intake'); renderFileList('fb');
+  lastGeneratedDoc = '';
   document.querySelectorAll('.chip.sel').forEach(c => c.classList.remove('sel'));
   document.querySelectorAll('.fld-inp,.fld-ta').forEach(el => el.value = '');
   document.querySelectorAll('.fld-sel').forEach(el => el.selectedIndex = 0);
