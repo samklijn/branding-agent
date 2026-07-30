@@ -176,13 +176,39 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
   .kv-lbl{min-width:auto}
 }
 @media print{
-  .top,.modal-bg,.actions,.key-btn,.progress{display:none!important}
-  body{background:#fff;color:#000}
-  .out-card{border-color:#ddd;break-inside:avoid}
-  .out-body{display:block!important}
-  .kv-row,.usp-item,.kw-item{background:#f9f9f9;border-color:#ddd}
-  .kv-val,.usp-desc,.kw-uitleg{color:#444}
-  .kv-lbl,.usp-num,.kw-waarde,.out-badge{color:#5a8a2a}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  .top,.modal-bg,.actions,.key-btn,.progress,
+  .hero,.wizard > .step-card,.loading-card,
+  footer{display:none!important}
+  #printHeader{display:block!important;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #7CA73F}
+  body{background:#fff!important;color:#111!important;font-family:"Raleway",sans-serif}
+  .wizard{max-width:100%;padding:0}
+  .results-section{display:block!important}
+  .res-head{padding:20px 0 16px;border-bottom:2px solid #7CA73F;margin-bottom:20px}
+  .res-badge{color:#666;font-size:10px;letter-spacing:.12em}
+  .res-title{color:#111;font-size:28px}
+  .res-sub{color:#666}
+  .out-card{border:1px solid #ddd!important;break-inside:avoid;margin-bottom:12px!important;border-radius:8px!important;background:#fff!important}
+  .out-head{background:#f7f7f7!important;padding:12px 16px!important}
+  .out-badge{background:#eaf3df!important;color:#5a8a2a!important}
+  .out-title{color:#111!important;font-size:14px!important}
+  .out-chev{display:none!important}
+  .out-body{display:block!important;padding:12px 16px 16px!important}
+  .kv-row{background:#fafafa!important;border-color:#e8e8e8!important;margin-bottom:5px!important;border-radius:6px!important}
+  .kv-lbl{color:#5a8a2a!important;font-size:9px!important}
+  .kv-val{color:#333!important;font-size:13px!important}
+  .usp-item{background:#fafafa!important;border-color:#e8e8e8!important;border-radius:6px!important;margin-bottom:6px!important}
+  .usp-num{color:#5a8a2a!important}
+  .usp-tit{color:#111!important}
+  .usp-desc{color:#444!important}
+  .kw-grid{gap:6px!important}
+  .kw-item{background:#f0f7e6!important;border-color:#c8dfa8!important;border-radius:6px!important}
+  .kw-waarde{color:#3d6b1a!important}
+  .kw-uitleg{color:#555!important}
+  .pill-yes{background:#eaf3df!important;border-color:#c8dfa8!important;color:#3d6b1a!important}
+  .pill-no{background:#fdf0ea!important;border-color:#f2c4a8!important;color:#b05a2a!important}
+  .voorbeeld-box{background:#f7fbf0!important;border-color:#c8dfa8!important;color:#444!important}
+  .tov-pills{flex-wrap:wrap!important;gap:4px!important}
 }
 </style>
 </head>
@@ -418,6 +444,16 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
 
   <!-- ── RESULTS ── -->
   <div class="results-section" id="resultsSection">
+    <!-- print-only header -->
+    <div id="printHeader" style="display:none">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+        <div style="width:32px;height:32px;background:#7CA73F;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff;flex-shrink:0">S</div>
+        <div>
+          <div style="font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#7CA73F">Spring Real Estate</div>
+          <div style="font-size:10px;color:#888;letter-spacing:.06em;text-transform:uppercase">Branding Agent · Nieuwbouwprojecten</div>
+        </div>
+      </div>
+    </div>
     <div class="res-head">
       <div class="res-badge" id="resProjMeta"></div>
       <div class="res-title">Jouw brandingprofiel</div>
@@ -425,7 +461,7 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
     </div>
     <div id="outputCards"></div>
     <div class="actions">
-      <button class="act-btn act-primary" onclick="window.print()">↓ Exporteer PDF</button>
+      <button class="act-btn act-primary" id="exportBtn" onclick="exportPDF()">↓ Exporteer PDF</button>
       <button class="act-btn act-ghost" onclick="resetAll()">↺ Nieuw project</button>
     </div>
   </div>
@@ -434,6 +470,7 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
 
 <footer>Spring Real Estate &nbsp;·&nbsp; Projectmarketing &amp; Makelaardij</footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
 /* ── STATE ─────────────────────────────────────────── */
 const sel = { type:[], doel:[], arch:[], duur:[] };
@@ -794,6 +831,42 @@ function toggleCard(head){
   const chev = head.querySelector('.out-chev');
   body.classList.toggle('open');
   chev.classList.toggle('open');
+}
+
+/* ── PDF EXPORT ─────────────────────────────────── */
+async function exportPDF(){
+  const btn = document.getElementById('exportBtn');
+  btn.textContent = 'Bezig…';
+  btn.disabled = true;
+
+  /* Open alle kaarten */
+  document.querySelectorAll('.out-body').forEach(b => b.classList.add('open'));
+  document.querySelectorAll('.out-chev').forEach(c => c.classList.add('open'));
+
+  /* Toon print-header */
+  const ph = document.getElementById('printHeader');
+  ph.style.display = 'block';
+
+  const el = document.getElementById('resultsSection');
+
+  const opt = {
+    margin:      [12, 14, 12, 14],
+    filename:    'brandingprofiel-spring.pdf',
+    image:       { type:'jpeg', quality:0.95 },
+    html2canvas: { scale:2, useCORS:true, backgroundColor:'#ffffff' },
+    jsPDF:       { unit:'mm', format:'a4', orientation:'portrait' },
+    pagebreak:   { mode:['avoid-all','css'] }
+  };
+
+  try {
+    await html2pdf().set(opt).from(el).save();
+  } catch(e) {
+    alert('PDF mislukt: ' + e.message);
+  }
+
+  ph.style.display = 'none';
+  btn.textContent = '↓ Exporteer PDF';
+  btn.disabled = false;
 }
 
 /* ── RESET ─────────────────────────────────────── */
