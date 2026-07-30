@@ -138,6 +138,8 @@ h1 em{font-style:normal;color:var(--gl)}
 .out-title{font-size:13.5px;font-weight:800;flex:1}
 .out-chev{color:var(--koud);transition:transform .2s;flex-shrink:0}
 .out-chev.open{transform:rotate(180deg)}
+.copy-btn{background:none;border:none;color:var(--koud);cursor:pointer;font-size:14px;padding:2px 6px;line-height:1;flex-shrink:0;transition:color .12s;margin-right:2px;font-family:inherit}
+.copy-btn:hover{color:var(--gl)}
 .out-body{padding:0 20px 20px;display:none}
 .out-body.open{display:block}
 
@@ -869,7 +871,7 @@ async function callGroq(naam, locatie, userMsg, attempt){
           { role:'user', content: userMsg }
         ],
         temperature: 0.65,
-        max_tokens: 5000
+        max_tokens: 7000
       })
     });
 
@@ -892,6 +894,14 @@ async function callGroq(naam, locatie, userMsg, attempt){
     const raw = data.choices[0].message.content.trim();
     lastGeneratedDoc = raw;
     renderResults(naam, locatie, raw);
+    const sectionCount = (raw.match(/^## /gm) || []).length;
+    if(sectionCount < 12){
+      document.getElementById('outputCards').insertAdjacentHTML('afterbegin',
+        `<div style="background:rgba(217,113,62,.09);border:1px solid rgba(217,113,62,.25);border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:12.5px;color:#d9713e">
+          ⚠ Slechts ${sectionCount} van 16 secties gegenereerd — waarschijnlijk door de token-limiet. Gebruik de feedback hieronder met de tekst <em>"Genereer de ontbrekende secties"</em> om de rest aan te maken.
+        </div>`
+      );
+    }
 
   } catch(e){
     stopLoadingAnim();
@@ -998,10 +1008,12 @@ function renderResults(naam, locatie, markdown){
     const badge = SECTION_LABELS[i] || String(i+1).padStart(2,'0');
     const body  = mdToHtml(sec.lines.join('\n'));
     const open  = i === 0;
+    const raw   = sec.lines.join('\n');
     return `<div class="out-card">
       <div class="out-head" onclick="toggleCard(this)">
         <div class="out-badge">${badge}</div>
         <div class="out-title">${escHtml(sec.title)}</div>
+        <button class="copy-btn" onclick="copySection(event,this,${JSON.stringify(raw)})" title="Kopieer inhoud">⎘</button>
         <svg class="out-chev ${open?'open':''}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="out-body ${open?'open':''}"><div class="md-content">${body}</div></div>
@@ -1055,13 +1067,13 @@ Instructie:
       method: 'POST',
       headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+key },
       body: JSON.stringify({
-        model: 'compound-beta',
+        model: 'llama-3.3-70b-versatile',
         messages: [
           { role:'system', content: SYSTEM_MSG },
           { role:'user',   content: refineMsg }
         ],
         temperature: 0.5,
-        max_tokens: 5000
+        max_tokens: 7000
       })
     });
 
@@ -1165,32 +1177,122 @@ function toggleCard(head){
 /* ── PDF EXPORT ── */
 async function exportPDF(){
   const btn = document.getElementById('exportBtn');
-  btn.textContent = 'Bezig…';
-  btn.disabled = true;
+  btn.textContent = 'Bezig…'; btn.disabled = true;
 
-  document.querySelectorAll('.out-body').forEach(b => b.classList.add('open'));
-  document.querySelectorAll('.out-chev').forEach(c => c.classList.add('open'));
+  const projLabel = document.getElementById('resProjMeta').textContent || 'Brand Foundation';
+  const filename  = 'brand-foundation-' + projLabel.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40) + '.pdf';
 
-  const ph = document.getElementById('printHeader');
-  ph.style.display = 'block';
+  /* Parse sections from the stored markdown */
+  const sections = [];
+  let cur = null;
+  for(const line of lastGeneratedDoc.split('\n')){
+    if(line.startsWith('## ')){ if(cur) sections.push(cur); cur = { title: line.slice(3).trim(), lines:[] }; }
+    else if(cur) cur.lines.push(line);
+  }
+  if(cur) sections.push(cur);
 
-  const naam = document.getElementById('resProjMeta').textContent || 'brand-foundation';
-  const filename = 'brand-foundation-' + naam.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40) + '.pdf';
+  /* Build a self-contained, light-themed print container */
+  const pv = document.createElement('div');
+  pv.style.cssText = 'width:170mm;font-family:Raleway,system-ui,sans-serif;background:#fff;color:#111';
+
+  const today = new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'});
+  const hdr = document.createElement('div');
+  hdr.style.cssText = 'display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:2.5px solid #7CA73F;margin-bottom:20px';
+  hdr.innerHTML = `
+    <div style="width:30px;height:30px;background:#7CA73F;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;flex-shrink:0">S</div>
+    <div>
+      <div style="font-weight:800;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7CA73F;line-height:1.1">Spring Real Estate</div>
+      <div style="font-size:9px;color:#999;margin-top:1px;letter-spacing:.04em">Projectmarketing &amp; Makelaardij</div>
+    </div>
+    <div style="margin-left:auto;text-align:right">
+      <div style="font-size:12px;font-weight:700;color:#111">${escHtml(projLabel)}</div>
+      <div style="font-size:9px;color:#999;margin-top:1px">${today}</div>
+    </div>`;
+  pv.appendChild(hdr);
+
+  const LABELS = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16'];
+  sections.forEach((sec, i) => {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'page-break-inside:avoid;margin-bottom:12px;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden';
+    wrap.innerHTML = `
+      <div style="background:#f5f9ef;padding:9px 14px;display:flex;align-items:center;gap:9px;border-bottom:1px solid #d4e8b0">
+        <span style="font-size:9px;font-weight:800;letter-spacing:.06em;background:#e3f0d0;color:#5a8a2a;padding:2px 8px;border-radius:999px;flex-shrink:0">${LABELS[i]||String(i+1).padStart(2,'0')}</span>
+        <span style="font-size:13px;font-weight:800;color:#111">${escHtml(sec.title)}</span>
+      </div>
+      <div style="padding:12px 14px 14px">${mdToLightHtml(sec.lines.join('\n'))}</div>`;
+    pv.appendChild(wrap);
+  });
+
+  const ft = document.createElement('div');
+  ft.style.cssText = 'margin-top:16px;padding-top:10px;border-top:1px solid #e0e0e0;font-size:9px;color:#bbb;text-align:center;letter-spacing:.04em';
+  ft.textContent = 'Vertrouwelijk · Spring Real Estate · Projectmarketing & Makelaardij';
+  pv.appendChild(ft);
+
+  /* Off-screen render */
+  pv.style.position = 'fixed'; pv.style.top = '-9999px'; pv.style.left = '-9999px';
+  document.body.appendChild(pv);
 
   try {
     await html2pdf().set({
-      margin:      [12, 14, 12, 14],
+      margin:      [10, 12, 10, 12],
       filename,
-      image:       { type:'jpeg', quality:0.95 },
-      html2canvas: { scale:2, useCORS:true, backgroundColor:'#ffffff' },
+      image:       { type:'jpeg', quality:0.82 },
+      html2canvas: { scale:1.5, useCORS:true, backgroundColor:'#ffffff', logging:false },
       jsPDF:       { unit:'mm', format:'a4', orientation:'portrait' },
-      pagebreak:   { mode:['avoid-all','css'] }
-    }).from(document.getElementById('resultsSection')).save();
+      pagebreak:   { mode:['css','legacy'] }
+    }).from(pv).save();
   } catch(e){ alert('PDF mislukt: ' + e.message); }
 
-  ph.style.display = 'none';
-  btn.textContent = '↓ Exporteer PDF';
-  btn.disabled = false;
+  document.body.removeChild(pv);
+  btn.textContent = '↓ Exporteer PDF'; btn.disabled = false;
+}
+
+/* ── COPY SECTION ── */
+function copySection(e, btn, text){
+  e.stopPropagation();
+  navigator.clipboard.writeText(text).then(() => {
+    const prev = btn.textContent;
+    btn.textContent = '✓'; btn.style.color = 'var(--gl)';
+    setTimeout(() => { btn.textContent = prev; btn.style.color = ''; }, 1500);
+  }).catch(() => alert('Kopiëren mislukt.'));
+}
+
+/* ── LIGHT MARKDOWN (voor PDF) ── */
+function mdToLightHtml(text){
+  const lines = text.split('\n');
+  let html = '', inUl = false, inOl = false;
+  const close = () => { if(inUl){ html+='</ul>'; inUl=false; } if(inOl){ html+='</ol>'; inOl=false; } };
+  const P  = 'color:#333;font-size:12px;line-height:1.65;margin:0 0 7px';
+  const H3 = 'color:#5a8a2a;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin:12px 0 5px';
+  const H4 = 'color:#111;font-size:12px;font-weight:700;margin:9px 0 4px';
+  const LI = 'color:#333;font-size:12px;line-height:1.6;padding:3px 0 3px 16px;position:relative;list-style:none';
+  const BQ = 'background:#f7fbf0;border-left:3px solid #7CA73F;padding:9px 13px;margin:8px 0;color:#444;font-size:12px;line-height:1.6;font-style:italic';
+  for(const line of lines){
+    const t = line.trim();
+    if(!t){ close(); continue; }
+    if(t.startsWith('### ')){ close(); html+=`<h3 style="${H3}">${iMdL(t.slice(4))}</h3>`; }
+    else if(t.startsWith('#### ')){ close(); html+=`<h4 style="${H4}">${iMdL(t.slice(5))}</h4>`; }
+    else if(t.startsWith('> ')){ close(); html+=`<blockquote style="${BQ}">${iMdL(t.slice(2))}</blockquote>`; }
+    else if(t==='---'||t==='***'){ close(); html+='<hr style="border:none;border-top:1px solid #e0e0e0;margin:10px 0">'; }
+    else if(/^- .+/.test(t)){
+      if(inOl){ html+='</ol>'; inOl=false; }
+      if(!inUl){ html+='<ul style="padding:0;margin:0 0 7px">'; inUl=true; }
+      html+=`<li style="${LI}"><span style="position:absolute;left:0;color:#7CA73F;font-weight:700">—</span>${iMdL(t.slice(2))}</li>`;
+    } else if(/^\d+\. .+/.test(t)){
+      if(inUl){ html+='</ul>'; inUl=false; }
+      if(!inOl){ html+='<ol style="padding:0;margin:0 0 7px">'; inOl=true; }
+      html+=`<li style="${LI}"><span style="position:absolute;left:0;color:#7CA73F;font-weight:800;font-size:10px">${t.match(/^\d+/)[0]}</span>${iMdL(t.replace(/^\d+\. /,''))}</li>`;
+    } else { close(); html+=`<p style="${P}">${iMdL(t)}</p>`; }
+  }
+  close();
+  return html;
+}
+function iMdL(t){
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.+?)\*\*/g,'<strong style="color:#111;font-weight:700">$1</strong>')
+    .replace(/\*(.+?)\*/g,'<em style="color:#555;font-style:italic">$1</em>')
+    .replace(/_(.+?)_/g,'<em style="color:#555;font-style:italic">$1</em>')
+    .replace(/`(.+?)`/g,'<code style="background:#f0f0f0;padding:1px 4px;border-radius:3px;font-size:10.5px">$1</code>');
 }
 
 /* ── RESET ── */
