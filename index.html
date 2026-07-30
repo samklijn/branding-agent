@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Branding Agent · Spring Real Estate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0c0c;--sur:#161615;--s2:#1f1f1e;
+  --ink:#fff;--muted:#AFAEB2;--koud:#8a8a8c;
+  --bd:#2f2f2d;--line:#3C3C3B;
+  --g:#7CA73F;--gl:#89B647;--rood:#d9713e;
+  --fn:"Raleway",system-ui,-apple-system,sans-serif;
+  --r:12px;--rsm:8px;
+}
+body{font-family:var(--fn);background:var(--bg);color:var(--ink);line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--sur);border:1px solid var(--bd);border-radius:16px;padding:32px;max-width:460px;width:100%}
+.modal-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.modal-mark{width:32px;height:32px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#fff}
+.modal-brand{font-weight:800;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--g)}
+.modal h2{font-size:20px;font-weight:800;margin-bottom:8px}
+.modal p{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+.modal-link{color:var(--gl);text-decoration:none;font-weight:700}
+.modal-link:hover{text-decoration:underline}
+.modal-field{margin-bottom:14px}
+.modal-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block}
+.modal-input{width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);color:var(--ink);font-family:var(--fn);font-size:14px;outline:none;transition:border-color .15s}
+.modal-input:focus{border-color:var(--g)}
+.modal-input::placeholder{color:var(--koud)}
+.modal-btn{width:100%;padding:13px;background:var(--g);color:#fff;border:none;border-radius:var(--rsm);font-family:var(--fn);font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .15s}
+.modal-btn:hover{background:var(--gl)}
+.modal-note{font-size:11.5px;color:var(--koud);margin-top:12px;text-align:center}
+
+/* ── TOP BAR ── */
+.top{position:sticky;top:0;z-index:20;background:rgba(12,12,12,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:0 22px;height:52px;display:flex;align-items:center;gap:12px}
+.s-mark{width:26px;height:26px;background:var(--g);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff;flex-shrink:0}
+.v-sep{width:1px;height:20px;background:var(--line)}
+.brand-name{font-weight:800;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--g);line-height:1.1}
+.brand-sub{font-size:9px;font-weight:600;letter-spacing:.07em;color:var(--muted);margin-top:1px}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.key-btn{background:none;border:1px solid var(--bd);color:var(--koud);font-family:var(--fn);font-size:11px;padding:5px 12px;border-radius:999px;cursor:pointer;transition:border-color .15s,color .15s}
+.key-btn:hover{border-color:var(--g);color:var(--gl)}
+
+/* ── HERO ── */
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:52px 20px 40px}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gl);margin-bottom:18px}
+h1{font-size:clamp(28px,5vw,48px);font-weight:800;letter-spacing:-.015em;line-height:1.05;margin-bottom:12px}
+h1 em{font-style:normal;color:var(--gl)}
+.sub{font-size:15px;color:var(--muted);max-width:46ch;line-height:1.65;margin-bottom:36px}
+
+/* Capability pills */
+.caps{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.cap-pill{font-size:11px;font-weight:600;padding:5px 13px;border-radius:999px;background:var(--sur);border:1px solid var(--bd);color:var(--muted);display:flex;align-items:center;gap:5px}
+.cap-dot{width:6px;height:6px;border-radius:50%;background:var(--gl);flex-shrink:0}
+
+/* ── WIZARD WRAP ── */
+.wizard{width:100%;max-width:700px;margin:0 auto;padding:40px 20px 64px}
+
+/* Progress bar */
+.progress{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:36px}
+.prog-step{display:flex;align-items:center;gap:8px}
+.prog-dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--koud);background:var(--bg);transition:.2s;flex-shrink:0}
+.prog-dot.active{border-color:var(--g);color:var(--g);background:rgba(124,167,63,.08)}
+.prog-dot.done{border-color:var(--g);background:var(--g);color:#fff}
+.prog-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--koud);transition:.2s}
+.prog-dot.active + .prog-label{color:var(--muted)}
+.prog-dot.done + .prog-label{color:var(--muted)}
+.prog-line{width:48px;height:1px;background:var(--bd);flex-shrink:0;margin:0 4px;transition:background .3s}
+.prog-line.done{background:var(--g)}
+
+/* Step cards */
+.step-card{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:28px;display:none}
+.step-card.active{display:block}
+.step-title{font-size:17px;font-weight:800;margin-bottom:4px}
+.step-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.55}
+
+/* Fields */
+.field{margin-bottom:18px}
+.field-row{display:grid;gap:14px}
+.field-row.c2{grid-template-columns:1fr 1fr}
+.fld-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:block}
+.fld-inp{width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);color:var(--ink);font-family:var(--fn);font-size:14px;outline:none;transition:border-color .15s}
+.fld-inp:focus{border-color:var(--g)}
+.fld-inp::placeholder{color:var(--koud)}
+.fld-sel{width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);color:var(--ink);font-family:var(--fn);font-size:14px;outline:none;transition:border-color .15s;appearance:none;cursor:pointer}
+.fld-sel:focus{border-color:var(--g)}
+.fld-sel option{background:var(--sur)}
+.fld-ta{width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);color:var(--ink);font-family:var(--fn);font-size:14px;outline:none;transition:border-color .15s;resize:vertical;min-height:90px;line-height:1.6}
+.fld-ta:focus{border-color:var(--g)}
+.fld-ta::placeholder{color:var(--koud)}
+
+/* Chip selectors */
+.chip-group{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:7px 15px;border-radius:999px;background:var(--bg);border:1px solid var(--bd);color:var(--muted);font-family:var(--fn);font-size:12px;font-weight:600;cursor:pointer;transition:.12s;user-select:none}
+.chip:hover{border-color:var(--g);color:var(--gl)}
+.chip.sel{border-color:var(--g);background:rgba(124,167,63,.1);color:var(--gl)}
+
+/* Step nav */
+.step-nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px}
+.btn-back{background:none;border:1px solid var(--bd);color:var(--muted);font-family:var(--fn);font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:11px 22px;border-radius:999px;cursor:pointer;transition:.12s}
+.btn-back:hover{border-color:var(--g);color:var(--gl)}
+.btn-next{background:var(--g);color:#fff;border:none;font-family:var(--fn);font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:11px 28px;border-radius:999px;cursor:pointer;transition:.12s;display:flex;align-items:center;gap:8px}
+.btn-next:hover{background:var(--gl)}
+.btn-next:active{transform:scale(.97)}
+
+/* ── LOADING ── */
+.loading-card{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:48px 32px;text-align:center;display:none}
+.loading-card.show{display:block}
+.spinner{width:48px;height:48px;border:3px solid var(--bd);border-top-color:var(--g);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 24px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ld-title{font-size:17px;font-weight:800;margin-bottom:6px}
+.ld-sub{font-size:13px;color:var(--muted);margin-bottom:28px}
+.ld-steps{display:flex;flex-direction:column;gap:8px;max-width:320px;margin:0 auto}
+.ld-step{font-size:12.5px;color:var(--koud);display:flex;align-items:center;gap:10px;padding:8px 14px;border-radius:var(--rsm);transition:.3s;text-align:left}
+.ld-step.active{background:rgba(124,167,63,.07);color:var(--gl);border:1px solid rgba(124,167,63,.15)}
+.ld-step.done{color:var(--muted)}
+.ld-ico{font-size:16px;flex-shrink:0}
+
+/* ── RESULTS ── */
+.results-section{display:none}
+.results-section.show{display:block}
+.res-head{text-align:center;padding:36px 0 30px}
+.res-badge{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.res-title{font-size:clamp(24px,4vw,38px);font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.res-sub{font-size:14px;color:var(--muted)}
+
+/* Output accordion cards */
+.out-card{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;margin-bottom:8px;transition:border-color .12s}
+.out-card:hover{border-color:var(--line)}
+.out-head{display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer;user-select:none}
+.out-badge{font-size:9px;font-weight:800;letter-spacing:.06em;color:var(--gl);background:rgba(124,167,63,.1);padding:3px 9px;border-radius:999px;flex-shrink:0}
+.out-title{font-size:14px;font-weight:800;flex:1}
+.out-chev{color:var(--koud);transition:transform .2s;flex-shrink:0}
+.out-chev.open{transform:rotate(180deg)}
+.out-body{padding:0 18px 18px;display:none}
+.out-body.open{display:block}
+
+/* Content elements */
+.kv-row{display:flex;gap:12px;padding:10px 14px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);margin-bottom:6px;margin-top:6px}
+.kv-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gl);min-width:110px;padding-top:3px;flex-shrink:0;line-height:1.3}
+.kv-val{font-size:13.5px;color:var(--muted);line-height:1.65}
+.usp-item{padding:14px 16px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);margin-bottom:6px;margin-top:6px}
+.usp-num{font-size:9px;font-weight:800;letter-spacing:.08em;color:var(--gl);margin-bottom:4px}
+.usp-tit{font-size:14px;font-weight:800;margin-bottom:5px}
+.usp-desc{font-size:13px;color:var(--muted);line-height:1.6}
+.kw-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.kw-item{padding:12px 16px;background:rgba(124,167,63,.05);border:1px solid rgba(124,167,63,.15);border-radius:var(--r);flex:1;min-width:150px}
+.kw-waarde{font-size:14px;font-weight:800;color:var(--gl);margin-bottom:4px}
+.kw-uitleg{font-size:12px;color:var(--muted);line-height:1.5}
+.tov-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pill-yes{padding:5px 12px;border-radius:999px;font-size:11.5px;font-weight:600;background:rgba(124,167,63,.1);border:1px solid rgba(124,167,63,.2);color:var(--gl)}
+.pill-no{padding:5px 12px;border-radius:999px;font-size:11.5px;font-weight:600;background:rgba(217,113,62,.07);border:1px solid rgba(217,113,62,.2);color:var(--rood)}
+.voorbeeld-box{background:rgba(124,167,63,.04);border:1px solid rgba(124,167,63,.12);border-radius:var(--rsm);padding:14px 16px;margin-top:8px;font-size:14px;color:var(--muted);line-height:1.7;font-style:italic}
+
+.actions{display:flex;gap:10px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+.act-btn{padding:11px 24px;border-radius:999px;font-family:var(--fn);font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:.12s}
+.act-primary{background:var(--g);color:#fff;border:none}
+.act-primary:hover{background:var(--gl)}
+.act-ghost{background:none;border:1px solid var(--bd);color:var(--muted)}
+.act-ghost:hover{border-color:var(--g);color:var(--gl)}
+
+footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-top:1px solid var(--line);letter-spacing:.06em;text-transform:uppercase;margin-top:auto}
+
+@media(max-width:580px){
+  .field-row.c2{grid-template-columns:1fr}
+  .prog-label{display:none}
+  .prog-line{width:24px}
+  .kv-row{flex-direction:column;gap:4px}
+  .kv-lbl{min-width:auto}
+}
+@media print{
+  .top,.modal-bg,.actions,.key-btn,.progress{display:none!important}
+  body{background:#fff;color:#000}
+  .out-card{border-color:#ddd;break-inside:avoid}
+  .out-body{display:block!important}
+  .kv-row,.usp-item,.kw-item{background:#f9f9f9;border-color:#ddd}
+  .kv-val,.usp-desc,.kw-uitleg{color:#444}
+  .kv-lbl,.usp-num,.kw-waarde,.out-badge{color:#5a8a2a}
+}
+</style>
+</head>
+<body>
+
+<!-- SETUP MODAL -->
+<div class="modal-bg" id="setupModal">
+  <div class="modal">
+    <div class="modal-logo">
+      <div class="modal-mark">S</div>
+      <div class="modal-brand">Spring Real Estate</div>
+    </div>
+    <h2>Groq API-sleutel instellen</h2>
+    <p>
+      De Branding Agent gebruikt Groq's compound-model voor real-time marktonderzoek en AI-merkstrategie.
+      Maak een gratis sleutel aan op <a class="modal-link" href="https://console.groq.com" target="_blank">console.groq.com</a>
+      → API Keys → Create API key.
+    </p>
+    <div class="modal-field">
+      <label class="modal-lbl" for="apiKeyInput">Groq API-sleutel</label>
+      <input class="modal-input" id="apiKeyInput" type="password" placeholder="gsk_..." autocomplete="off" spellcheck="false">
+    </div>
+    <button class="modal-btn" onclick="saveKey()">Opslaan &amp; doorgaan</button>
+    <div class="modal-note">De sleutel wordt lokaal opgeslagen in je browser — niet gedeeld.</div>
+  </div>
+</div>
+
+<!-- TOP BAR -->
+<div class="top">
+  <div class="s-mark">S</div>
+  <div class="v-sep"></div>
+  <div>
+    <div class="brand-name">Spring Real Estate</div>
+    <div class="brand-sub">Branding Agent · Nieuwbouwprojecten</div>
+  </div>
+  <div class="top-right">
+    <button class="key-btn" onclick="resetKey()">⚙ Sleutel</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="eyebrow">Nieuwbouw · AI-merkstrategie · Groq Compound Search</div>
+  <h1>Vertel over je project,<br><em>wij bouwen je merk</em></h1>
+  <p class="sub">Beantwoord drie stappen vragen. Onze agent doet marktonderzoek en genereert merkidentiteit, positionering, tone of voice, USP's en kernwaarden.</p>
+  <div class="caps">
+    <div class="cap-pill"><div class="cap-dot"></div>Merkidentiteit</div>
+    <div class="cap-pill"><div class="cap-dot"></div>Positionering</div>
+    <div class="cap-pill"><div class="cap-dot"></div>Tone of Voice</div>
+    <div class="cap-pill"><div class="cap-dot"></div>USP's</div>
+    <div class="cap-pill"><div class="cap-dot"></div>Kernwaarden</div>
+  </div>
+</div>
+
+<!-- WIZARD -->
+<div class="wizard" id="wizardSection">
+
+  <!-- Progress -->
+  <div class="progress" id="progressBar">
+    <div class="prog-step">
+      <div class="prog-dot active" id="dot1">1</div>
+      <span class="prog-label">Project</span>
+    </div>
+    <div class="prog-line" id="line1"></div>
+    <div class="prog-step">
+      <div class="prog-dot" id="dot2">2</div>
+      <span class="prog-label">Doelgroep</span>
+    </div>
+    <div class="prog-line" id="line2"></div>
+    <div class="prog-step">
+      <div class="prog-dot" id="dot3">3</div>
+      <span class="prog-label">Sfeer & Visie</span>
+    </div>
+  </div>
+
+  <!-- ── STAP 1: PROJECT BASIS ── -->
+  <div class="step-card active" id="step1">
+    <div class="step-title">Project basisinformatie</div>
+    <div class="step-sub">De kern van het nieuwbouwproject — locatie, type en segment vormen het fundament van je merk.</div>
+
+    <div class="field-row c2">
+      <div class="field">
+        <label class="fld-lbl" for="projNaam">Werknaam project</label>
+        <input class="fld-inp" id="projNaam" type="text" placeholder="bijv. Havenkwartier" autocomplete="off">
+      </div>
+      <div class="field">
+        <label class="fld-lbl" for="projLocatie">Locatie (gemeente + wijk)</label>
+        <input class="fld-inp" id="projLocatie" type="text" placeholder="bijv. Amsterdam Noord, Buiksloterham" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="fld-lbl">Type woningen</label>
+      <div class="chip-group" id="typeChips">
+        <div class="chip" onclick="chip(this,'type')">Appartementen</div>
+        <div class="chip" onclick="chip(this,'type')">Grondgebonden</div>
+        <div class="chip" onclick="chip(this,'type')">Villa's / vrijstaand</div>
+        <div class="chip" onclick="chip(this,'type')">Stadswoningen</div>
+        <div class="chip" onclick="chip(this,'type')">Gemengd</div>
+        <div class="chip" onclick="chip(this,'type')">Wonen + bedrijfsruimte</div>
+      </div>
+    </div>
+
+    <div class="field-row c2">
+      <div class="field">
+        <label class="fld-lbl" for="prijsseg">Prijssegment</label>
+        <select class="fld-sel" id="prijsseg">
+          <option value="">Kies segment…</option>
+          <option>Sociale huur (&lt; €900/mnd)</option>
+          <option>Middenhuur (€900–€1.500/mnd)</option>
+          <option>Vrije sector huur (&gt; €1.500/mnd)</option>
+          <option>Starter koop (&lt; €325k)</option>
+          <option>Middensegment (€325k–€600k)</option>
+          <option>Hoger segment (€600k–€1M)</option>
+          <option>Luxe / topsegment (&gt; €1M)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="fld-lbl" for="aantalWon">Projectomvang</label>
+        <select class="fld-sel" id="aantalWon">
+          <option value="">Kies omvang…</option>
+          <option>Kleinschalig (&lt; 50 woningen)</option>
+          <option>Middelgroot (50–150 woningen)</option>
+          <option>Groot (150–400 woningen)</option>
+          <option>Grootschalig (&gt; 400 woningen)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <span></span>
+      <button class="btn-next" onclick="goStep(2)">Volgende stap →</button>
+    </div>
+  </div>
+
+  <!-- ── STAP 2: DOELGROEP ── -->
+  <div class="step-card" id="step2">
+    <div class="step-title">Doelgroep &amp; marktpositie</div>
+    <div class="step-sub">Wie zijn de ideale bewoners en wat onderscheidt dit project van de concurrentie?</div>
+
+    <div class="field">
+      <label class="fld-lbl">Primaire doelgroep (meerdere mogelijk)</label>
+      <div class="chip-group" id="doelChips">
+        <div class="chip" onclick="chip(this,'doel')">Starters</div>
+        <div class="chip" onclick="chip(this,'doel')">Jonge gezinnen</div>
+        <div class="chip" onclick="chip(this,'doel')">Doorstromers</div>
+        <div class="chip" onclick="chip(this,'doel')">Empty nesters</div>
+        <div class="chip" onclick="chip(this,'doel')">Senioren / 55+</div>
+        <div class="chip" onclick="chip(this,'doel')">Young professionals</div>
+        <div class="chip" onclick="chip(this,'doel')">Beleggers / buy-to-let</div>
+        <div class="chip" onclick="chip(this,'doel')">Expats / internationaal</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="fld-lbl" for="uspInput">Unieke projectkenmerken &amp; locatievoordelen</label>
+      <textarea class="fld-ta" id="uspInput" placeholder="bijv. Directe waterkant, eigen aanlegsteiger, energieneutraal, rooftop garden, autoluwe wijk, nabij OV-knooppunt…"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="fld-lbl" for="concInput">Concurrerende of vergelijkbare projecten (optioneel)</label>
+      <input class="fld-inp" id="concInput" type="text" placeholder="bijv. Houthavens, Haven-Stad Amsterdam, The Mark" autocomplete="off">
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(1)">← Terug</button>
+      <button class="btn-next" onclick="goStep(3)">Volgende stap →</button>
+    </div>
+  </div>
+
+  <!-- ── STAP 3: SFEER & VISIE ── -->
+  <div class="step-card" id="step3">
+    <div class="step-title">Sfeer, architectuur &amp; visie</div>
+    <div class="step-sub">De beleving en het karakter bepalen de emotionele kern van het merkprofiel.</div>
+
+    <div class="field">
+      <label class="fld-lbl">Architectuurstijl</label>
+      <div class="chip-group" id="archChips">
+        <div class="chip" onclick="chip(this,'arch')">Modern / eigentijds</div>
+        <div class="chip" onclick="chip(this,'arch')">Industrieel / loft</div>
+        <div class="chip" onclick="chip(this,'arch')">Klassiek / traditioneel</div>
+        <div class="chip" onclick="chip(this,'arch')">Scandinavisch / minimalistisch</div>
+        <div class="chip" onclick="chip(this,'arch')">Biophilic / groen</div>
+        <div class="chip" onclick="chip(this,'arch')">Iconisch / landmark</div>
+        <div class="chip" onclick="chip(this,'arch')">Herbestemming / monumentaal</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="fld-lbl">Duurzaamheidsprofiel</label>
+      <div class="chip-group" id="duurChips">
+        <div class="chip" onclick="chip(this,'duur')">Energieneutraal (BENG)</div>
+        <div class="chip" onclick="chip(this,'duur')">Volledig gasloos</div>
+        <div class="chip" onclick="chip(this,'duur')">BREEAM gecertificeerd</div>
+        <div class="chip" onclick="chip(this,'duur')">Circulair bouwen</div>
+        <div class="chip" onclick="chip(this,'duur')">Groen dak / waterretentie</div>
+        <div class="chip" onclick="chip(this,'duur')">Zonnepanelen inbegrepen</div>
+        <div class="chip" onclick="chip(this,'duur')">Niet prominente focus</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="fld-lbl" for="sfeervInput">Gewenste sfeer &amp; beleving (beschrijf vrij)</label>
+      <textarea class="fld-ta" id="sfeervInput" placeholder="bijv. Urbaan en levendig, maar met een rustige thuishaven. Kosmopolitisch met buurtgevoel. De energie van de stad zonder de hectiek…"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="fld-lbl" for="extrasInput">Overige relevante informatie (optioneel)</label>
+      <input class="fld-inp" id="extrasInput" type="text" placeholder="bijv. bekende architect, historisch erfgoed, speciale voorzieningen, bouwjaar…" autocomplete="off">
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(2)">← Terug</button>
+      <button class="btn-next" id="runBtn" onclick="runAgent()">Analyseer project →</button>
+    </div>
+  </div>
+
+  <!-- ── LOADING ── -->
+  <div class="loading-card" id="loadingCard">
+    <div class="spinner"></div>
+    <div class="ld-title">Branding Agent aan het werk…</div>
+    <div class="ld-sub">Groq doorzoekt de markt en genereert je merkprofiel</div>
+    <div class="ld-steps">
+      <div class="ld-step" id="ls0"><span class="ld-ico">🔍</span> Markt &amp; concurrentie onderzoeken</div>
+      <div class="ld-step" id="ls1"><span class="ld-ico">🎯</span> Doelgroep &amp; segment profileren</div>
+      <div class="ld-step" id="ls2"><span class="ld-ico">✍️</span> Merkidentiteit &amp; positionering schrijven</div>
+      <div class="ld-step" id="ls3"><span class="ld-ico">💡</span> USP's &amp; kernwaarden uitwerken</div>
+    </div>
+  </div>
+
+  <!-- ── RESULTS ── -->
+  <div class="results-section" id="resultsSection">
+    <div class="res-head">
+      <div class="res-badge" id="resProjMeta"></div>
+      <div class="res-title">Jouw brandingprofiel</div>
+      <div class="res-sub">Gegenereerd via marktonderzoek &amp; AI-merkstrategie</div>
+    </div>
+    <div id="outputCards"></div>
+    <div class="actions">
+      <button class="act-btn act-primary" onclick="window.print()">↓ Exporteer PDF</button>
+      <button class="act-btn act-ghost" onclick="resetAll()">↺ Nieuw project</button>
+    </div>
+  </div>
+
+</div><!-- /wizard -->
+
+<footer>Spring Real Estate &nbsp;·&nbsp; Projectmarketing &amp; Makelaardij</footer>
+
+<script>
+/* ── STATE ─────────────────────────────────────────── */
+const sel = { type:[], doel:[], arch:[], duur:[] };
+
+/* ── API KEY ─────────────────────────────────────── */
+function saveKey(){
+  const k = document.getElementById('apiKeyInput').value.trim();
+  if(!k.startsWith('gsk_')){ alert('Voer een geldige Groq-sleutel in (begint met gsk_).'); return; }
+  localStorage.setItem('groq_key', k);
+  document.getElementById('setupModal').style.display = 'none';
+}
+function resetKey(){
+  document.getElementById('apiKeyInput').value = localStorage.getItem('groq_key') || '';
+  document.getElementById('setupModal').style.display = 'flex';
+}
+window.addEventListener('DOMContentLoaded', () => {
+  if(localStorage.getItem('groq_key')) document.getElementById('setupModal').style.display = 'none';
+  document.getElementById('apiKeyInput').addEventListener('keydown', e => { if(e.key==='Enter') saveKey(); });
+});
+
+/* ── CHIPS ──────────────────────────────────────── */
+function chip(el, group){
+  el.classList.toggle('sel');
+  const v = el.textContent.trim();
+  const arr = sel[group];
+  const i = arr.indexOf(v);
+  if(i > -1) arr.splice(i,1); else arr.push(v);
+}
+
+/* ── STEP NAV ────────────────────────────────────── */
+let step = 1;
+function goStep(n){
+  document.getElementById('step'+step).classList.remove('active');
+  document.getElementById('step'+n).classList.add('active');
+  step = n;
+  updateProgress(n);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function updateProgress(n){
+  [1,2,3].forEach(i => {
+    const dot = document.getElementById('dot'+i);
+    dot.classList.remove('active','done');
+    if(i < n) dot.classList.add('done');
+    else if(i === n) dot.classList.add('active');
+  });
+  [1,2].forEach(i => {
+    const line = document.getElementById('line'+i);
+    if(i < n) line.classList.add('done'); else line.classList.remove('done');
+  });
+}
+
+/* ── LOADING ANIMATION ───────────────────────────── */
+let lsTimer = null;
+function startLoadingAnim(){
+  let i = 0;
+  const steps = ['ls0','ls1','ls2','ls3'];
+  steps.forEach(id => document.getElementById(id).classList.remove('active','done'));
+  lsTimer = setInterval(()=>{
+    if(i > 0) { document.getElementById(steps[i-1]).classList.remove('active'); document.getElementById(steps[i-1]).classList.add('done'); }
+    if(i < steps.length) { document.getElementById(steps[i]).classList.add('active'); i++; }
+  }, 2500);
+}
+function stopLoadingAnim(){
+  if(lsTimer){ clearInterval(lsTimer); lsTimer = null; }
+}
+
+/* ── GROQ CALL ───────────────────────────────────── */
+async function runAgent(){
+  const key = localStorage.getItem('groq_key');
+  if(!key){ alert('API-sleutel ontbreekt. Klik op ⚙ Sleutel.'); return; }
+
+  const naam    = document.getElementById('projNaam').value.trim() || 'Onbekend project';
+  const locatie = document.getElementById('projLocatie').value.trim();
+  const type    = sel.type.join(', ') || 'niet opgegeven';
+  const prijs   = document.getElementById('prijsseg').value || 'niet opgegeven';
+  const aantal  = document.getElementById('aantalWon').value || 'niet opgegeven';
+  const doel    = sel.doel.join(', ') || 'niet opgegeven';
+  const usps    = document.getElementById('uspInput').value.trim() || 'geen specifieke kenmerken opgegeven';
+  const conc    = document.getElementById('concInput').value.trim() || 'geen';
+  const arch    = sel.arch.join(', ') || 'niet opgegeven';
+  const duur    = sel.duur.join(', ') || 'niet opgegeven';
+  const sfeer   = document.getElementById('sfeervInput').value.trim() || 'niet opgegeven';
+  const extras  = document.getElementById('extrasInput').value.trim() || 'geen';
+
+  if(!locatie){ alert('Vul minimaal de locatie in bij stap 1.'); return; }
+
+  /* Show loading */
+  document.getElementById('step3').classList.remove('active');
+  document.getElementById('progressBar').style.display = 'none';
+  document.getElementById('loadingCard').classList.add('show');
+  startLoadingAnim();
+
+  const prompt = `Je bent een senior brand strategist gespecialiseerd in Nederlandse nieuwbouw vastgoed.
+
+Gebruik je zoekfunctie om actuele marktinformatie op te halen over:
+- Nieuwbouwprojecten en marktontwikkelingen in ${locatie}
+- Woningmarkttrends voor het segment: ${prijs}
+- Doelgroep-karakteristieken voor: ${doel}
+- Vergelijkbare/concurrerende projecten: ${conc}
+
+PROJECT INFORMATIE:
+• Werknaam: ${naam}
+• Locatie: ${locatie}
+• Type woningen: ${type}
+• Prijssegment: ${prijs}
+• Projectomvang: ${aantal}
+• Primaire doelgroep: ${doel}
+• Unieke kenmerken / locatievoordelen: ${usps}
+• Architectuurstijl: ${arch}
+• Duurzaamheid: ${duur}
+• Gewenste sfeer / beleving: ${sfeer}
+• Overige info: ${extras}
+
+Genereer op basis van je onderzoek een volledig, professioneel en concreet brandingprofiel. Wees specifiek — geen generieke teksten. Onderbouw keuzes met marktinzichten.
+
+Antwoord UITSLUITEND met geldige JSON (geen markdown, geen uitleg buiten de JSON):
+{
+  "merkidentiteit": {
+    "essence": "De kerngedachte van het merk in één krachtige zin",
+    "persoonlijkheid": "Beschrijf de merkpersoonlijkheid in 3-4 zinnen",
+    "belofte": "De merkbelofte aan toekomstige bewoners in één zin",
+    "karakter": "Vijf adjectieven die het merk precies beschrijven, kommagescheiden"
+  },
+  "positionering": {
+    "statement": "Volledige positioneringsverklaring (2-3 krachtige zinnen)",
+    "marktpositie": "Hoe dit project zich verhoudt tot de markt en concurrentie",
+    "concurrentievoordeel": "Het duurzame, verdedigbare concurrentievoordeel",
+    "doelgroep_fit": "Waarom dit merk precies aansluit bij de doelgroep"
+  },
+  "toneofvoice": {
+    "toon": "Beschrijf de communicatietoon in 2 zinnen",
+    "stijl": "Schrijfstijlomschrijving: zinslengte, woordkeuze, ritme",
+    "dos": ["Concreet do 1", "Concreet do 2", "Concreet do 3", "Concreet do 4"],
+    "donts": ["Concreet dont 1", "Concreet dont 2", "Concreet dont 3"],
+    "voorbeeld": "Een voorbeeldzin of -alinea in de juiste tone of voice voor dit project"
+  },
+  "usps": [
+    {"titel": "Naam USP 1", "omschrijving": "Concrete onderbouwing waarom dit een echte USP is (2 zinnen)"},
+    {"titel": "Naam USP 2", "omschrijving": "…"},
+    {"titel": "Naam USP 3", "omschrijving": "…"},
+    {"titel": "Naam USP 4", "omschrijving": "…"},
+    {"titel": "Naam USP 5", "omschrijving": "…"}
+  ],
+  "kernwaarden": [
+    {"waarde": "Waarde 1", "uitleg": "Wat deze waarde betekent voor dit project in één zin"},
+    {"waarde": "Waarde 2", "uitleg": "…"},
+    {"waarde": "Waarde 3", "uitleg": "…"},
+    {"waarde": "Waarde 4", "uitleg": "…"},
+    {"waarde": "Waarde 5", "uitleg": "…"}
+  ]
+}`;
+
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + key
+      },
+      body: JSON.stringify({
+        model: 'compound-beta',
+        messages: [{ role:'user', content: prompt }],
+        temperature: 0.7,
+        max_tokens: 4000
+      })
+    });
+
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
+
+    stopLoadingAnim();
+
+    let raw = data.choices[0].message.content.trim();
+    raw = raw.replace(/^```json\s*/i,'').replace(/^```\s*/,'').replace(/\s*```$/,'');
+
+    let branding;
+    try { branding = JSON.parse(raw); }
+    catch(e){ throw new Error('JSON-parsing mislukt. Probeer opnieuw.'); }
+
+    renderResults(naam, locatie, prijs, branding);
+
+  } catch(e){
+    stopLoadingAnim();
+    document.getElementById('loadingCard').classList.remove('show');
+    document.getElementById('progressBar').style.display = 'flex';
+    document.getElementById('step3').classList.add('active');
+    alert('Fout: ' + e.message);
+  }
+}
+
+/* ── RENDER ─────────────────────────────────────── */
+function renderResults(naam, locatie, prijs, b){
+  document.getElementById('loadingCard').classList.remove('show');
+  document.getElementById('resProjMeta').textContent = naam + ' · ' + locatie + ' · ' + prijs;
+
+  const mi = b.merkidentiteit || {};
+  const po = b.positionering || {};
+  const tv = b.toneofvoice || {};
+  const us = b.usps || [];
+  const kw = b.kernwaarden || [];
+
+  const cards = [
+    {
+      badge:'01', title:'Merkidentiteit', open:true,
+      body:`
+        ${kv('Kern­essence', mi.essence)}
+        ${kv('Persoonlijkheid', mi.persoonlijkheid)}
+        ${kv('Merk­belofte', mi.belofte)}
+        ${kv('Karakter', mi.karakter)}`
+    },
+    {
+      badge:'02', title:'Positionering', open:false,
+      body:`
+        ${kv('Statement', po.statement)}
+        ${kv('Markt­positie', po.marktpositie)}
+        ${kv('Concurrentie­voordeel', po.concurrentievoordeel)}
+        ${kv('Doelgroep fit', po.doelgroep_fit)}`
+    },
+    {
+      badge:'03', title:'Tone of Voice', open:false,
+      body:`
+        ${kv('Toon', tv.toon)}
+        ${kv('Schrijfstijl', tv.stijl)}
+        <div class="kv-row">
+          <div class="kv-lbl">Do's</div>
+          <div class="kv-val"><div class="tov-pills">${(tv.dos||[]).map(d=>`<span class="pill-yes">✓ ${esc(d)}</span>`).join('')}</div></div>
+        </div>
+        <div class="kv-row">
+          <div class="kv-lbl">Don'ts</div>
+          <div class="kv-val"><div class="tov-pills">${(tv.donts||[]).map(d=>`<span class="pill-no">✕ ${esc(d)}</span>`).join('')}</div>
+        </div>
+        <div class="voorbeeld-box">"${esc(tv.voorbeeld)}"</div>`
+    },
+    {
+      badge:"04", title:"USP's", open:false,
+      body: us.map((u,i)=>`
+        <div class="usp-item">
+          <div class="usp-num">USP ${String(i+1).padStart(2,'0')}</div>
+          <div class="usp-tit">${esc(u.titel)}</div>
+          <div class="usp-desc">${esc(u.omschrijving)}</div>
+        </div>`).join('')
+    },
+    {
+      badge:'05', title:'Kernwaarden', open:false,
+      body:`<div class="kw-grid">${kw.map(k=>`
+        <div class="kw-item">
+          <div class="kw-waarde">${esc(k.waarde)}</div>
+          <div class="kw-uitleg">${esc(k.uitleg)}</div>
+        </div>`).join('')}</div>`
+    }
+  ];
+
+  document.getElementById('outputCards').innerHTML = cards.map(c=>`
+    <div class="out-card">
+      <div class="out-head" onclick="toggleCard(this)">
+        <div class="out-badge">${c.badge}</div>
+        <div class="out-title">${c.title}</div>
+        <svg class="out-chev ${c.open?'open':''}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="out-body ${c.open?'open':''}">${c.body}</div>
+    </div>`).join('');
+
+  document.getElementById('resultsSection').classList.add('show');
+  document.getElementById('resultsSection').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function kv(label, val){
+  return `<div class="kv-row"><div class="kv-lbl">${label}</div><div class="kv-val">${esc(val)||'–'}</div></div>`;
+}
+function esc(s){
+  if(!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function toggleCard(head){
+  const body = head.nextElementSibling;
+  const chev = head.querySelector('.out-chev');
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+/* ── RESET ─────────────────────────────────────── */
+function resetAll(){
+  document.getElementById('resultsSection').classList.remove('show');
+  document.getElementById('outputCards').innerHTML = '';
+  document.getElementById('progressBar').style.display = 'flex';
+  Object.keys(sel).forEach(k => sel[k] = []);
+  document.querySelectorAll('.chip.sel').forEach(c => c.classList.remove('sel'));
+  ['projNaam','projLocatie','uspInput','concInput','sfeervInput','extrasInput'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  ['prijsseg','aantalWon'].forEach(id => { document.getElementById(id).value = ''; });
+  goStep(1);
+}
+</script>
+</body>
+</html>
