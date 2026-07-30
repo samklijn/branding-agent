@@ -402,14 +402,17 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
 
   <!-- ── LOADING ── -->
   <div class="loading-card" id="loadingCard">
-    <div class="spinner"></div>
-    <div class="ld-title">Branding Agent aan het werk…</div>
-    <div class="ld-sub">Groq doorzoekt de markt en genereert je merkprofiel</div>
-    <div class="ld-steps">
+    <div class="spinner" id="ldSpinner"></div>
+    <div class="ld-title" id="ldTitle">Branding Agent aan het werk…</div>
+    <div class="ld-sub" id="ldSub">Groq doorzoekt de markt en genereert je merkprofiel</div>
+    <div class="ld-steps" id="ldSteps">
       <div class="ld-step" id="ls0"><span class="ld-ico">🔍</span> Markt &amp; concurrentie onderzoeken</div>
       <div class="ld-step" id="ls1"><span class="ld-ico">🎯</span> Doelgroep &amp; segment profileren</div>
       <div class="ld-step" id="ls2"><span class="ld-ico">✍️</span> Merkidentiteit &amp; positionering schrijven</div>
       <div class="ld-step" id="ls3"><span class="ld-ico">💡</span> USP's &amp; kernwaarden uitwerken</div>
+    </div>
+    <div id="ldRetry" style="display:none;margin-top:20px">
+      <button class="btn-next" id="ldRetryBtn" style="margin:0 auto">Opnieuw proberen →</button>
     </div>
   </div>
 
@@ -605,13 +608,20 @@ async function callGroq(naam, locatie, prijs, prompt, attempt){
 
     const data = await res.json();
 
-    /* Rate limit → auto-retry with countdown */
-    if(res.status === 429 && attempt < 2){
-      const retryAfter = Math.ceil(parseFloat(
+    /* Rate limit → auto-retry met countdown */
+    if(res.status === 429){
+      const secs = Math.ceil(parseFloat(
         (data.error?.message || '').match(/in\s+([\d.]+)s/)?.[1] || '20'
       )) + 2;
-      await showRetryCountdown(retryAfter);
-      return callGroq(naam, locatie, prijs, prompt, attempt + 1);
+
+      if(attempt < 2){
+        await showRetryCountdown(secs);
+        return callGroq(naam, locatie, prijs, prompt, attempt + 1);
+      } else {
+        /* Na 3 pogingen: toon retry-knop */
+        showRateLimitBlock(naam, locatie, prijs, prompt, secs);
+        return;
+      }
     }
 
     if(!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
@@ -638,14 +648,62 @@ async function callGroq(naam, locatie, prijs, prompt, attempt){
 
 function showRetryCountdown(seconds){
   return new Promise(resolve => {
-    const sub = document.getElementById('ld-sub') || document.querySelector('.ld-sub');
+    const title = document.getElementById('ldTitle');
+    const sub   = document.getElementById('ldSub');
+    const spinner = document.getElementById('ldSpinner');
+    if(spinner) spinner.style.borderTopColor = '#d9713e';
     let s = seconds;
     const iv = setInterval(()=>{
-      if(sub) sub.textContent = `Groq limiet bereikt — automatisch opnieuw over ${s}s…`;
+      if(title) title.textContent = `Groq limiet bereikt — opnieuw over ${s}s`;
+      if(sub)   sub.textContent   = 'De gratis Groq-laag heeft een minuutlimiet. Even geduld…';
       s--;
-      if(s < 0){ clearInterval(iv); if(sub) sub.textContent = 'Groq doorzoekt de markt en genereert je merkprofiel'; resolve(); }
+      if(s < 0){
+        clearInterval(iv);
+        if(title)   title.textContent = 'Branding Agent aan het werk…';
+        if(sub)     sub.textContent   = 'Groq doorzoekt de markt en genereert je merkprofiel';
+        if(spinner) spinner.style.borderTopColor = '';
+        resolve();
+      }
     }, 1000);
   });
+}
+
+function showRateLimitBlock(naam, locatie, prijs, prompt, secs){
+  stopLoadingAnim();
+  const title   = document.getElementById('ldTitle');
+  const sub     = document.getElementById('ldSub');
+  const steps   = document.getElementById('ldSteps');
+  const retryWrap = document.getElementById('ldRetry');
+  const retryBtn  = document.getElementById('ldRetryBtn');
+  const spinner   = document.getElementById('ldSpinner');
+
+  if(spinner) spinner.style.display = 'none';
+  if(title)   title.textContent = 'Groq-limiet bereikt';
+  if(sub)     sub.textContent   = `Wacht nog even — daarna lukt het automatisch.`;
+  if(steps)   steps.style.display = 'none';
+  if(retryWrap) retryWrap.style.display = 'block';
+
+  let s = secs;
+  if(retryBtn) retryBtn.disabled = true;
+  const iv = setInterval(()=>{
+    if(sub) sub.textContent = `Nog ${s} seconden wachten…`;
+    s--;
+    if(s < 0){
+      clearInterval(iv);
+      if(sub)     sub.textContent = 'Je kunt het nu opnieuw proberen.';
+      if(retryBtn){ retryBtn.disabled = false; retryBtn.textContent = 'Opnieuw proberen →'; }
+    }
+  }, 1000);
+
+  if(retryBtn) retryBtn.onclick = () => {
+    if(spinner)   { spinner.style.display = ''; spinner.style.borderTopColor = ''; }
+    if(title)     title.textContent = 'Branding Agent aan het werk…';
+    if(sub)       sub.textContent   = 'Groq doorzoekt de markt en genereert je merkprofiel';
+    if(steps)     steps.style.display = '';
+    if(retryWrap) retryWrap.style.display = 'none';
+    startLoadingAnim();
+    callGroq(naam, locatie, prijs, prompt, 0);
+  };
 }
 
 /* ── RENDER ─────────────────────────────────────── */
