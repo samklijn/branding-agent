@@ -837,6 +837,16 @@ Kwaliteitseisen:
 - Markeer aannames met [aanname]
 - Bruikbaar voor: Naming, Storytelling, Visual Identity, Website, Brochure, Content, Campagne en Sales Agent`;
 
+/* ── GROQ FETCH HELPER ── */
+function groqFetch(model, messages, max_tokens, temperature){
+  const key = localStorage.getItem('groq_key');
+  return fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+key },
+    body: JSON.stringify({ model, messages, temperature, max_tokens })
+  });
+}
+
 async function runAgent(){
   const key = localStorage.getItem('groq_key');
   if(!key){ alert('API-sleutel ontbreekt. Klik op ⚙ Sleutel.'); return; }
@@ -849,9 +859,22 @@ async function runAgent(){
   startLoadingAnim();
 
   const docCtx = buildDocContext('intake');
-  const userMsg = `${intake.raw}${docCtx}
 
-Instructie: Zoek online naar vergelijkbare nieuwbouwprojecten in ${intake.locatie}, actuele markttrends voor het segment en concurrentiepositie. Verwerk de gevonden informatie in het document.${docCtx ? ' Verwerk ook de aangeleverde documenten hierboven als aanvullende context.' : ''}
+  /* ── FASE 1: compound-beta alleen voor websearch (kleine prompt) ── */
+  let marketResearch = '';
+  try {
+    const seg  = (document.getElementById('f_prijsseg')?.value||'').trim();
+    const conc = (document.getElementById('f_conc')?.value||'').trim();
+    const searchQ = `Zoek online naar vergelijkbare nieuwbouwprojecten in ${intake.locatie}${seg?' (segment: '+seg+')':''}, hun positionering en marketingclaims${conc?', en informatie over: '+conc:''}. Geef een compacte samenvatting (max 300 woorden) van markttrends, concurrentiepositie en relevante claims.`;
+    const r1 = await groqFetch('compound-beta', [{ role:'user', content: searchQ }], 500, 0.4);
+    if(r1.ok){
+      const d1 = await r1.json();
+      marketResearch = d1.choices?.[0]?.message?.content?.trim() || '';
+    }
+  } catch(_){ /* websearch optioneel — ga door zonder */ }
+
+  /* ── FASE 2: llama-70b genereert het volledige document (128k context) ── */
+  const userMsg = `${intake.raw}${docCtx}${marketResearch ? `\n\nMARKTONDERZOEK (live opgezocht):\n${marketResearch}` : ''}
 
 Maak nu het volledige Brand Foundation Document voor ${intake.naam}.`;
 
@@ -859,32 +882,14 @@ Maak nu het volledige Brand Foundation Document voor ${intake.naam}.`;
 }
 
 async function callGroq(naam, locatie, userMsg, attempt){
-  const key = localStorage.getItem('groq_key');
   try {
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+key },
-      body: JSON.stringify({
-        model: 'compound-beta',
-        messages: [
-          { role:'system', content: SYSTEM_MSG },
-          { role:'user', content: userMsg }
-        ],
-        temperature: 0.65,
-        max_tokens: 4500
-      })
-    });
+    const res = await groqFetch(
+      'llama-3.3-70b-versatile',
+      [{ role:'system', content: SYSTEM_MSG }, { role:'user', content: userMsg }],
+      7000, 0.65
+    );
 
     const data = await res.json();
-
-    if(res.status === 413){
-      /* Context te groot — verklein en probeer opnieuw */
-      if(attempt < 1){
-        const shorter = userMsg.slice(0, Math.floor(userMsg.length * 0.6));
-        return callGroq(naam, locatie, shorter, attempt + 1);
-      }
-      throw new Error('De ingevoerde tekst is te lang voor dit model. Verklein de aangeleverde documenten en probeer opnieuw.');
-    }
 
     if(res.status === 429){
       const secs = Math.ceil(parseFloat((data.error?.message||'').match(/in\s+([\d.]+)s/)?.[1]||'25')) + 3;
