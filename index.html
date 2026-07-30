@@ -752,7 +752,7 @@ function filesAdded(fileList, zone){
     uploadedFiles[zone].push(entry);
     renderFileList(zone);
     extractText(file).then(text => {
-      entry.text = text.slice(0, 6000);
+      entry.text = text.slice(0, 2500);
       entry.status = 'ok';
       renderFileList(zone);
     }).catch(() => {
@@ -871,11 +871,20 @@ async function callGroq(naam, locatie, userMsg, attempt){
           { role:'user', content: userMsg }
         ],
         temperature: 0.65,
-        max_tokens: 7000
+        max_tokens: 4500
       })
     });
 
     const data = await res.json();
+
+    if(res.status === 413){
+      /* Context te groot — verklein en probeer opnieuw */
+      if(attempt < 1){
+        const shorter = userMsg.slice(0, Math.floor(userMsg.length * 0.6));
+        return callGroq(naam, locatie, shorter, attempt + 1);
+      }
+      throw new Error('De ingevoerde tekst is te lang voor dit model. Verklein de aangeleverde documenten en probeer opnieuw.');
+    }
 
     if(res.status === 429){
       const secs = Math.ceil(parseFloat((data.error?.message||'').match(/in\s+([\d.]+)s/)?.[1]||'25')) + 3;
