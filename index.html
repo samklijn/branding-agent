@@ -583,6 +583,11 @@ Antwoord UITSLUITEND met geldige JSON (geen markdown, geen uitleg buiten de JSON
   ]
 }`;
 
+  await callGroq(naam, locatie, prijs, prompt, 0);
+}
+
+async function callGroq(naam, locatie, prijs, prompt, attempt){
+  const key = localStorage.getItem('groq_key');
   try {
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
@@ -594,11 +599,21 @@ Antwoord UITSLUITEND met geldige JSON (geen markdown, geen uitleg buiten de JSON
         model: 'compound-beta',
         messages: [{ role:'user', content: prompt }],
         temperature: 0.7,
-        max_tokens: 4000
+        max_tokens: 2500
       })
     });
 
     const data = await res.json();
+
+    /* Rate limit → auto-retry with countdown */
+    if(res.status === 429 && attempt < 2){
+      const retryAfter = Math.ceil(parseFloat(
+        (data.error?.message || '').match(/in\s+([\d.]+)s/)?.[1] || '20'
+      )) + 2;
+      await showRetryCountdown(retryAfter);
+      return callGroq(naam, locatie, prijs, prompt, attempt + 1);
+    }
+
     if(!res.ok) throw new Error(data.error?.message || `HTTP ${res.status}`);
 
     stopLoadingAnim();
@@ -619,6 +634,18 @@ Antwoord UITSLUITEND met geldige JSON (geen markdown, geen uitleg buiten de JSON
     document.getElementById('step3').classList.add('active');
     alert('Fout: ' + e.message);
   }
+}
+
+function showRetryCountdown(seconds){
+  return new Promise(resolve => {
+    const sub = document.getElementById('ld-sub') || document.querySelector('.ld-sub');
+    let s = seconds;
+    const iv = setInterval(()=>{
+      if(sub) sub.textContent = `Groq limiet bereikt — automatisch opnieuw over ${s}s…`;
+      s--;
+      if(s < 0){ clearInterval(iv); if(sub) sub.textContent = 'Groq doorzoekt de markt en genereert je merkprofiel'; resolve(); }
+    }, 1000);
+  });
 }
 
 /* ── RENDER ─────────────────────────────────────── */
