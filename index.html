@@ -37,6 +37,13 @@ body{font-family:var(--fn);background:var(--bg);color:var(--ink);line-height:1.5
 .modal-btn{width:100%;padding:13px;background:var(--g);color:#fff;border:none;border-radius:var(--rsm);font-family:var(--fn);font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .15s}
 .modal-btn:hover{background:var(--gl)}
 .modal-note{font-size:11.5px;color:var(--koud);margin-top:12px;text-align:center}
+.provider-tabs{display:flex;gap:8px;margin-bottom:16px}
+.provider-tab{flex:1;padding:10px 8px;border:1px solid var(--bd);border-radius:var(--rsm);background:var(--bg);color:var(--muted);font-family:var(--fn);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:all .15s;text-align:center}
+.provider-tab.active{border-color:var(--g);color:var(--g);background:rgba(124,167,63,.08)}
+.provider-tab:hover:not(.active){border-color:var(--koud);color:var(--ink)}
+.provider-badge{display:inline-block;font-size:9px;padding:2px 5px;border-radius:3px;margin-left:5px;font-weight:700;letter-spacing:.06em;vertical-align:middle}
+.badge-free{background:rgba(124,167,63,.18);color:var(--g)}
+.badge-paid{background:rgba(175,174,178,.15);color:var(--muted)}
 
 /* ── TOP BAR ── */
 .top{position:sticky;top:0;z-index:20;background:rgba(12,12,12,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:0 22px;height:52px;display:flex;align-items:center;gap:12px}
@@ -237,10 +244,18 @@ footer{text-align:center;font-size:10.5px;color:var(--koud);padding:18px;border-
       <div class="modal-mark">S</div>
       <div class="modal-brand">Spring Real Estate</div>
     </div>
-    <h2>Groq API-sleutel instellen</h2>
-    <p>De Branding Agent gebruikt Groq's compound-model voor real-time marktonderzoek en het genereren van het Brand Foundation Document. Maak een gratis sleutel aan op <a class="modal-link" href="https://console.groq.com" target="_blank">console.groq.com</a> → API Keys → Create API key.</p>
+    <h2>API-provider kiezen</h2>
+    <div class="provider-tabs">
+      <div class="provider-tab active" id="tab-groq" onclick="selectProvider('groq')">
+        Groq<span class="provider-badge badge-free">GRATIS</span>
+      </div>
+      <div class="provider-tab" id="tab-openai" onclick="selectProvider('openai')">
+        OpenAI GPT-4o mini<span class="provider-badge badge-paid">BETAALD</span>
+      </div>
+    </div>
+    <p id="providerDesc">Groq gebruikt llama-3.3-70b met live marktonderzoek. Gratis, snel, maar met een minuutlimiet. Sleutel aanmaken op <a class="modal-link" href="https://console.groq.com" target="_blank">console.groq.com</a> → API Keys.</p>
     <div class="modal-field">
-      <label class="modal-lbl" for="apiKeyInput">Groq API-sleutel</label>
+      <label class="modal-lbl" id="keyLabel">Groq API-sleutel</label>
       <input class="modal-input" id="apiKeyInput" type="password" placeholder="gsk_..." autocomplete="off" spellcheck="false">
     </div>
     <button class="modal-btn" onclick="saveKey()">Opslaan &amp; doorgaan</button>
@@ -633,19 +648,54 @@ const sel = { type:[], duur:[], doel:[], tov:[], luxe:[] };
 const uploadedFiles = { intake:[], fb:[] };  /* {name, text, status} */
 let lastGeneratedDoc = '';  /* voor de feedback-loop */
 
-/* ── API KEY ── */
+/* ── API KEY / PROVIDER ── */
+let _selectedProvider = 'groq';
+
+function selectProvider(p){
+  _selectedProvider = p;
+  document.getElementById('tab-groq').classList.toggle('active', p === 'groq');
+  document.getElementById('tab-openai').classList.toggle('active', p === 'openai');
+  const inp = document.getElementById('apiKeyInput');
+  const desc = document.getElementById('providerDesc');
+  const lbl  = document.getElementById('keyLabel');
+  if(p === 'openai'){
+    inp.placeholder = 'sk-...';
+    lbl.textContent = 'OpenAI API-sleutel';
+    desc.innerHTML  = 'GPT-4o mini — betere Nederlandse schrijfkwaliteit, betrouwbaar zonder rate-limiet. Sleutel aanmaken op <a class="modal-link" href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a> → API keys.';
+  } else {
+    inp.placeholder = 'gsk_...';
+    lbl.textContent = 'Groq API-sleutel';
+    desc.innerHTML  = 'Groq gebruikt llama-3.3-70b met live marktonderzoek. Gratis, snel, maar met een minuutlimiet. Sleutel aanmaken op <a class="modal-link" href="https://console.groq.com" target="_blank">console.groq.com</a> → API Keys.';
+  }
+  inp.value = localStorage.getItem('api_key_' + p) || '';
+}
+
 function saveKey(){
   const k = document.getElementById('apiKeyInput').value.trim();
-  if(!k.startsWith('gsk_')){ alert('Voer een geldige Groq-sleutel in (begint met gsk_).'); return; }
-  localStorage.setItem('groq_key', k);
+  if(_selectedProvider === 'groq' && !k.startsWith('gsk_')){
+    alert('Voer een geldige Groq-sleutel in (begint met gsk_).'); return;
+  }
+  if(_selectedProvider === 'openai' && !k.startsWith('sk-')){
+    alert('Voer een geldige OpenAI-sleutel in (begint met sk-).'); return;
+  }
+  localStorage.setItem('api_key_' + _selectedProvider, k);
+  localStorage.setItem('api_provider', _selectedProvider);
   document.getElementById('setupModal').style.display = 'none';
 }
+
 function resetKey(){
-  document.getElementById('apiKeyInput').value = localStorage.getItem('groq_key') || '';
+  const saved = localStorage.getItem('api_provider') || 'groq';
+  _selectedProvider = saved;
+  selectProvider(saved);
   document.getElementById('setupModal').style.display = 'flex';
 }
+
 window.addEventListener('DOMContentLoaded', () => {
-  if(localStorage.getItem('groq_key')) document.getElementById('setupModal').style.display = 'none';
+  const saved = localStorage.getItem('api_provider') || 'groq';
+  _selectedProvider = saved;
+  selectProvider(saved);
+  const key = localStorage.getItem('api_key_' + saved) || localStorage.getItem('groq_key');
+  if(key) document.getElementById('setupModal').style.display = 'none';
   document.getElementById('apiKeyInput').addEventListener('keydown', e => { if(e.key==='Enter') saveKey(); });
 });
 
@@ -850,9 +900,31 @@ Kwaliteitseisen:
 - Markeer aannames met [aanname]
 - Bruikbaar voor: Naming, Storytelling, Visual Identity, Website, Brochure, Content, Campagne en Sales Agent`;
 
-/* ── GROQ FETCH HELPER ── */
+/* ── API FETCH HELPER ── */
+function getProviderKey(){
+  const p = localStorage.getItem('api_provider') || 'groq';
+  return {
+    provider: p,
+    key: localStorage.getItem('api_key_' + p) || localStorage.getItem('groq_key') || '',
+    endpoint: p === 'openai'
+      ? 'https://api.openai.com/v1/chat/completions'
+      : 'https://api.groq.com/openai/v1/chat/completions',
+    mainModel: p === 'openai' ? 'gpt-4o-mini' : 'llama-3.3-70b-versatile'
+  };
+}
+
+function apiFetch(model, messages, max_tokens, temperature){
+  const {key, endpoint} = getProviderKey();
+  return fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+key },
+    body: JSON.stringify({ model, messages, temperature, max_tokens })
+  });
+}
+
+/* Keep old name for compound-beta (Groq only) */
 function groqFetch(model, messages, max_tokens, temperature){
-  const key = localStorage.getItem('groq_key');
+  const key = localStorage.getItem('api_key_groq') || localStorage.getItem('groq_key') || '';
   return fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+key },
@@ -861,7 +933,7 @@ function groqFetch(model, messages, max_tokens, temperature){
 }
 
 async function runAgent(){
-  const key = localStorage.getItem('groq_key');
+  const {key, provider} = getProviderKey();
   if(!key){ alert('API-sleutel ontbreekt. Klik op ⚙ Sleutel.'); return; }
   const intake = collectIntake();
   if(!intake.locatie || intake.locatie === 'onbekend'){ alert('Vul minimaal de locatie in (stap 1).'); return; }
@@ -873,20 +945,22 @@ async function runAgent(){
 
   const docCtx = buildDocContext('intake');
 
-  /* ── FASE 1: compound-beta alleen voor websearch (kleine prompt) ── */
+  /* ── FASE 1: websearch via compound-beta (alleen Groq) ── */
   let marketResearch = '';
-  try {
-    const seg  = (document.getElementById('f_prijsseg')?.value||'').trim();
-    const conc = (document.getElementById('f_conc')?.value||'').trim();
-    const searchQ = `Zoek online naar vergelijkbare nieuwbouwprojecten in ${intake.locatie}${seg?' (segment: '+seg+')':''}, hun positionering en marketingclaims${conc?', en informatie over: '+conc:''}. Geef een compacte samenvatting (max 300 woorden) van markttrends, concurrentiepositie en relevante claims.`;
-    const r1 = await groqFetch('compound-beta', [{ role:'user', content: searchQ }], 500, 0.4);
-    if(r1.ok){
-      const d1 = await r1.json();
-      marketResearch = d1.choices?.[0]?.message?.content?.trim() || '';
-    }
-  } catch(_){ /* websearch optioneel — ga door zonder */ }
+  if(provider === 'groq'){
+    try {
+      const seg  = (document.getElementById('f_prijsseg')?.value||'').trim();
+      const conc = (document.getElementById('f_conc')?.value||'').trim();
+      const searchQ = `Zoek online naar vergelijkbare nieuwbouwprojecten in ${intake.locatie}${seg?' (segment: '+seg+')':''}, hun positionering en marketingclaims${conc?', en informatie over: '+conc:''}. Geef een compacte samenvatting (max 300 woorden) van markttrends, concurrentiepositie en relevante claims.`;
+      const r1 = await groqFetch('compound-beta', [{ role:'user', content: searchQ }], 500, 0.4);
+      if(r1.ok){
+        const d1 = await r1.json();
+        marketResearch = d1.choices?.[0]?.message?.content?.trim() || '';
+      }
+    } catch(_){ /* websearch optioneel — ga door zonder */ }
+  }
 
-  /* ── FASE 2: llama-70b genereert het volledige document (128k context) ── */
+  /* ── FASE 2: hoofdmodel genereert het volledige document ── */
   const userMsg = `${intake.raw}${docCtx}${marketResearch ? `\n\nMARKTONDERZOEK (live opgezocht):\n${marketResearch}` : ''}
 
 Maak nu het volledige Brand Foundation Document voor ${intake.naam}.`;
@@ -896,8 +970,9 @@ Maak nu het volledige Brand Foundation Document voor ${intake.naam}.`;
 
 async function callGroq(naam, locatie, userMsg, attempt){
   try {
-    const res = await groqFetch(
-      'llama-3.3-70b-versatile',
+    const {mainModel} = getProviderKey();
+    const res = await apiFetch(
+      mainModel,
       [{ role:'system', content: SYSTEM_MSG }, { role:'user', content: userMsg }],
       7000, 0.65
     );
@@ -1054,7 +1129,7 @@ function renderResults(naam, locatie, markdown){
 
 /* ── REFINE (feedback-loop) ── */
 async function refineDocument(){
-  const key = localStorage.getItem('groq_key');
+  const {key} = getProviderKey();
   if(!key){ alert('API-sleutel ontbreekt.'); return; }
   if(!lastGeneratedDoc){ alert('Geen document beschikbaar om te verfijnen.'); return; }
 
@@ -1090,20 +1165,10 @@ Instructie:
 - Noteer boven het document: GEWIJZIGDE SECTIES: [lijst] | REDEN: [feedback samenvatting]`;
 
   try {
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+key },
-      body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
-        messages: [
-          { role:'system', content: SYSTEM_MSG },
-          { role:'user',   content: refineMsg }
-        ],
-        temperature: 0.5,
-        max_tokens: 7000
-      })
-    });
-
+    const {mainModel} = getProviderKey();
+    const res  = await apiFetch(mainModel,
+      [{ role:'system', content: SYSTEM_MSG }, { role:'user', content: refineMsg }],
+      7000, 0.5);
     const data = await res.json();
 
     if(res.status === 429){
